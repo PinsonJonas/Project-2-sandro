@@ -69,7 +69,7 @@ def main(robotIP):
     # RLeg is optimized
     effectorName = "RLeg"
     axisMask     = 63
-    space        = motion.FRAME_ROBOT
+    space        = motion.FRAME_TORSO
 
 
     # Motion of the RLeg
@@ -119,7 +119,7 @@ def main(robotIP):
 
 
 if __name__ == "__main__":
-    robotIp = "127.0.0.1"
+    robotIp = "192.168.43.192"
 
     if len(sys.argv) <= 1:
         print "Usage python motion_wbKick.py robotIP (optional default: 127.0.0.1)"

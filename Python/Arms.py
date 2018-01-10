@@ -93,8 +93,8 @@ def main(robotIP, effectorName):
 
 
 if __name__ == "__main__":
-    robotIp      = "127.0.0.1"
-    effectorName = "LArm"
+    robotIp      = "172.30.248.85"
+    effectorName = "RArm"
 
     if (len(sys.argv) <= 1):
         print "Usage python motion_wbEffectorControlArm.py robotIP(optional default: 127.0.0.1) effectorName(RArm or LArm)"

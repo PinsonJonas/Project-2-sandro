@@ -64,11 +64,11 @@ def main(robotIP):
 
     pathList     = [
                     [
-                     [0.0,   0.08,  0.14, 0.0, 0.0, 0.0], # target 1 for "LArm"
-                     [0.0,  -0.05, -0.07, 0.0, 0.0, 0.0], # target 2 for "LArm"
-                     [0.0,   0.08,  0.14, 0.0, 0.0, 0.0], # target 3 for "LArm"
-                     [0.0,  -0.05, -0.07, 0.0, 0.0, 0.0], # target 4 for "LArm"
-                     [0.0,   0.08,  0.14, 0.0, 0.0, 0.0], # target 5 for "LArm"
+                     [1.0,   0.00,  0.0, 0.0, 0.0, 0.0], # target 1 for "LArm"
+                    #  [0.0,  -0.05, -0.07, 0.0, 0.0, 0.0], # target 2 for "LArm"
+                    #  [0.0,   0.08,  0.14, 0.0, 0.0, 0.0], # target 3 for "LArm"
+                    #  [0.0,  -0.05, -0.07, 0.0, 0.0, 0.0], # target 4 for "LArm"
+                    #  [0.0,   0.08,  0.14, 0.0, 0.0, 0.0], # target 5 for "LArm"
                      ],
                     [
                      [0.0,   0.05, -0.07, 0.0, 0.0, 0.0], # target 1 for "RArm"
@@ -84,8 +84,8 @@ def main(robotIP):
                     almath.AXIS_MASK_VEL] # for "RArm"
 
     coef       = 1.5
-    timesList  = [ [coef*(i+1) for i in range(5)],  # for "LArm" in seconds
-                   [coef*(i+1) for i in range(6)] ] # for "RArm" in seconds
+    timesList  = [ [coef*(i+1) for i in range(len(pathList[0]))],  # for "LArm" in seconds
+                   [coef*(i+1) for i in range(len(pathList[1]))] ] # for "RArm" in seconds
 
     isAbsolute   = False
 
@@ -143,7 +143,7 @@ def main(robotIP):
 
 
 if __name__ == "__main__":
-    robotIp = "192.168.43.192"
+    robotIp = "172.30.248.85"
 
     if len(sys.argv) <= 1:
         print "Usage python motion_wbMultipleEffectors.py robotIP (optional default: 127.0.0.1)"

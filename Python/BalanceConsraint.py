@@ -68,7 +68,7 @@ def main(robotIP):
 
 
 if __name__ == "__main__":
-    robotIp = "127.0.0.1"
+    robotIp = "172.30.248.85"
 
     if len(sys.argv) <= 1:
         print "Usage python motion_wbEnableBalanceConstraint.py robotIP (optional default: 127.0.0.1)"
