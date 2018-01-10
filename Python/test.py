@@ -58,34 +58,41 @@ def main(robotIP):
     proxy.wbEnableBalanceConstraint(isEnable, supportLeg)
 
     # Arms motion
-    effectorList = ["LArm", "RArm"]
+    effectorList = ["LArm", "LElbowYaw"]
 
     space        = motion.FRAME_ROBOT
 
+    # MAX [0.7, 0.0, 0.4, 0.0, 0.0, 0.0]
+
     pathList     = [
                     [
-                     [1.0,   0.00,  0.0, 0.0, 0.0, 0.0], # target 1 for "LArm"
-                    #  [0.0,  -0.05, -0.07, 0.0, 0.0, 0.0], # target 2 for "LArm"
+                     [0.0, 0.1, 0.0, 0.0, 0.0, 0.0], # target 1 for "LArm"
+                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target 2 for "LArm"
                     #  [0.0,   0.08,  0.14, 0.0, 0.0, 0.0], # target 3 for "LArm"
                     #  [0.0,  -0.05, -0.07, 0.0, 0.0, 0.0], # target 4 for "LArm"
                     #  [0.0,   0.08,  0.14, 0.0, 0.0, 0.0], # target 5 for "LArm"
                      ],
                     [
-                     [0.0,   0.05, -0.07, 0.0, 0.0, 0.0], # target 1 for "RArm"
-                     [0.0,  -0.08,  0.14, 0.0, 0.0, 0.0], # target 2 for "RArm"
-                     [0.0,   0.05, -0.07, 0.0, 0.0, 0.0], # target 3 for "RArm"
-                     [0.0,  -0.08,  0.14, 0.0, 0.0, 0.0], # target 4 for "RArm"
-                     [0.0,   0.05, -0.07, 0.0, 0.0, 0.0], # target 5 for "RArm"
-                     [0.0,  -0.08,  0.14, 0.0, 0.0, 0.0], # target 6 for "RArm"
+                     [0.0, 0.1, 0.0, 0.0, 0.0, 0.0], # target 1 for "RArm"
+                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target 2 for "RArm"
+                    #  [0.0,   0.05, -0.07, 0.0, 0.0, 0.0], # target 3 for "RArm"
+                    #  [0.0,  -0.08,  0.14, 0.0, 0.0, 0.0], # target 4 for "RArm"
+                    #  [0.0,   0.05, -0.07, 0.0, 0.0, 0.0], # target 5 for "RArm"
+                    #  [0.0,  -0.08,  0.14, 0.0, 0.0, 0.0], # target 6 for "RArm"
                      ]
                     ]
 
-    axisMaskList = [almath.AXIS_MASK_VEL, # for "LArm"
-                    almath.AXIS_MASK_VEL] # for "RArm"
+                    
+
+    # axisMaskList = [almath.AXIS_MASK_VEL, # for "LArm"
+    #                 almath.AXIS_MASK_VEL] # for "RArm"
+
+    axisMaskList = almath.AXIS_MASK_VEL
 
     coef       = 1.5
     timesList  = [ [coef*(i+1) for i in range(len(pathList[0]))],  # for "LArm" in seconds
                    [coef*(i+1) for i in range(len(pathList[1]))] ] # for "RArm" in seconds
+
 
     isAbsolute   = False
 
@@ -93,45 +100,45 @@ def main(robotIP):
     proxy.positionInterpolations(effectorList, space, pathList,
                                  axisMaskList, timesList, isAbsolute)
 
-    # Torso Motion
-    effectorList = ["Torso", "LArm", "RArm"]
+    # # Torso Motion
+    # effectorList = ["Torso", "LArm", "RArm"]
 
-    dy = 0.06
-    dz = 0.06
-    pathList     = [
-                    [
-                     [0.0, +dy, -dz, 0.0, 0.0, 0.0], # target  1 for "Torso"
-                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target  2 for "Torso"
-                     [0.0, -dy, -dz, 0.0, 0.0, 0.0], # target  3 for "Torso"
-                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target  4 for "Torso"
-                     [0.0, +dy, -dz, 0.0, 0.0, 0.0], # target  5 for "Torso"
-                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target  6 for "Torso"
-                     [0.0, -dy, -dz, 0.0, 0.0, 0.0], # target  7 for "Torso"
-                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target  8 for "Torso"
-                     [0.0, +dy, -dz, 0.0, 0.0, 0.0], # target  9 for "Torso"
-                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target 10 for "Torso"
-                     [0.0, -dy, -dz, 0.0, 0.0, 0.0], # target 11 for "Torso"
-                     [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target 12 for "Torso"
-                     ],
-                     [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]], # for "LArm"
-                     [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]], # for "LArm"
-                    ]
+    # dy = 0.06
+    # dz = 0.06
+    # pathList     = [
+    #                 [
+    #                  [0.0, +dy, -dz, 0.0, 0.0, 0.0], # target  1 for "Torso"
+    #                  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target  2 for "Torso"
+    #                  [0.0, -dy, -dz, 0.0, 0.0, 0.0], # target  3 for "Torso"
+    #                  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target  4 for "Torso"
+    #                  [0.0, +dy, -dz, 0.0, 0.0, 0.0], # target  5 for "Torso"
+    #                  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target  6 for "Torso"
+    #                  [0.0, -dy, -dz, 0.0, 0.0, 0.0], # target  7 for "Torso"
+    #                  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target  8 for "Torso"
+    #                  [0.0, +dy, -dz, 0.0, 0.0, 0.0], # target  9 for "Torso"
+    #                  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target 10 for "Torso"
+    #                  [0.0, -dy, -dz, 0.0, 0.0, 0.0], # target 11 for "Torso"
+    #                  [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], # target 12 for "Torso"
+    #                  ],
+    #                  [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]], # for "LArm"
+    #                  [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]], # for "LArm"
+    #                 ]
 
-    axisMaskList = [almath.AXIS_MASK_ALL, # for "Torso"
-                    almath.AXIS_MASK_VEL, # for "LArm"
-                    almath.AXIS_MASK_VEL] # for "RArm"
+    # axisMaskList = [almath.AXIS_MASK_ALL, # for "Torso"
+    #                 almath.AXIS_MASK_VEL, # for "LArm"
+    #                 almath.AXIS_MASK_VEL] # for "RArm"
 
-    coef       = 0.5
-    timesList  = [
-                  [coef*(i+1) for i in range(12)], # for "Torso" in seconds
-                  [coef*12],                       # for "LArm" in seconds
-                  [coef*12]                        # for "RArm" in seconds
-                 ]
+    # coef       = 0.5
+    # timesList  = [
+    #               [coef*(i+1) for i in range(12)], # for "Torso" in seconds
+    #               [coef*12],                       # for "LArm" in seconds
+    #               [coef*12]                        # for "RArm" in seconds
+    #              ]
 
-    isAbsolute   = False
+    # isAbsolute   = False
 
-    proxy.positionInterpolations(effectorList, space, pathList,
-                                 axisMaskList, timesList, isAbsolute)
+    # proxy.positionInterpolations(effectorList, space, pathList,
+    #                              axisMaskList, timesList, isAbsolute)
 
 
     # Deactivate whole body
@@ -143,7 +150,7 @@ def main(robotIP):
 
 
 if __name__ == "__main__":
-    robotIp = "172.30.248.85"
+    robotIp = "172.30.248.108"
 
     if len(sys.argv) <= 1:
         print "Usage python motion_wbMultipleEffectors.py robotIP (optional default: 127.0.0.1)"

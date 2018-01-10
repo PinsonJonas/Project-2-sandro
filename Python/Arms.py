@@ -66,15 +66,15 @@ def main(robotIP, effectorName):
         coef = -1.0
 
     targetCoordinateList = [
-    [ +0.12, +0.00*coef, +0.00], # target 0
-    [ +0.12, +0.00*coef, -0.10], # target 1
-    [ +0.12, +0.05*coef, -0.10], # target 1
-    [ +0.12, +0.05*coef, +0.10], # target 2
-    [ +0.12, -0.10*coef, +0.10], # target 3
-    [ +0.12, -0.10*coef, -0.10], # target 4
-    [ +0.12, +0.00*coef, -0.10], # target 5
-    [ +0.12, +0.00*coef, +0.00], # target 6
-    [ +0.00, +0.00*coef, +0.00], # target 7
+    [ 0.12, +0.00*coef, +0.00], # target 0
+    # [ +0.12, +0.00*coef, -0.10], # target 1
+    # [ +0.12, +0.05*coef, -0.10], # target 1
+    # [ +0.12, +0.05*coef, +0.10], # target 2
+    # [ +0.12, -0.10*coef, +0.10], # target 3
+    # [ +0.12, -0.10*coef, -0.10], # target 4
+    # [ +0.12, +0.00*coef, -0.10], # target 5
+    # [ +0.12, +0.00*coef, +0.00], # target 6
+    # [ +0.00, +0.00*coef, +0.00], # target 7
     ]
 
 
@@ -93,7 +93,7 @@ def main(robotIP, effectorName):
 
 
 if __name__ == "__main__":
-    robotIp      = "172.30.248.85"
+    robotIp      = "172.30.248.108"
     effectorName = "RArm"
 
     if (len(sys.argv) <= 1):
