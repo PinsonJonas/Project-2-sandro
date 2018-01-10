@@ -17,8 +17,8 @@
         <Viewbox x:Name="vwbSkeleton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,-0.2" Grid.Column="0">
             <Image x:Name="imgSkeleton" HorizontalAlignment="Center"/>
         </Viewbox>
-        <Button x:Name="btnStartRecord" Content="Start" Grid.Column="1" HorizontalAlignment="Left" Margin="157.2,94,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="btnStopRecord" Content="Stop" Grid.Column="1" HorizontalAlignment="Left" Margin="157.2,155,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="btnStartRecord" Content="Start" Grid.Column="1" HorizontalAlignment="Left" Margin="157.2,94,0,0" VerticalAlignment="Top" Width="75" Click="btnStartRecord_Click"/>
+        <Button x:Name="btnStopRecord" Content="Stop" Grid.Column="1" HorizontalAlignment="Left" Margin="157.2,155,0,0" VerticalAlignment="Top" Width="75" Click="btnStopRecord_Click"/>
         <ListView x:Name="lvwLibrary" Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="157.2,242,0,0" VerticalAlignment="Top" Width="100">
             <ListView.View>
                 <GridView>
