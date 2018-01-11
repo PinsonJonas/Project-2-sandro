@@ -58,7 +58,6 @@
     <Compile Include="DrawSkeleton.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\Constants.cs" />
-    <Compile Include="Utilities\DepthExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

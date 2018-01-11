@@ -17,8 +17,8 @@
         <Viewbox x:Name="vwbSkeleton" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,-0.2" Grid.Column="0">
             
             <Grid>
-                <Image x:Name="imgCamera" HorizontalAlignment="Center"/>
-                <Image x:Name="imgSkeleton" HorizontalAlignment="Center"/>
+                <Image x:Name="imgCamera" HorizontalAlignment="Center" Width="640" Height="480"/>
+                <Canvas x:Name="CnvSkeleton" HorizontalAlignment="Center" Width="640" Height="480"/>
                 
             </Grid>
             

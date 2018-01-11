@@ -42,7 +42,7 @@ namespace Kinect
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.drawSkeleton.InitializeSensorAndSkeleton(imgSkeleton, imgCamera); 
+            this.drawSkeleton.InitializeSensorAndSkeleton(CnvSkeleton, imgCamera); 
         }
 
 
