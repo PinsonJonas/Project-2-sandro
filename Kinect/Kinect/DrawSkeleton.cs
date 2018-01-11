@@ -7,6 +7,7 @@ using System.Text;
 using System.Timers;
 using System.Windows;
 using System.Windows.Media;
+using KinectCoordinateMapping;
 using Microsoft.Kinect;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -52,12 +53,16 @@ namespace Kinect
         public Skeleton[] Skeletons;
 
 
+        
         // drawing group voor skelet rendering output
         //dit zorgt ervoor dat meerdere tekeningen samengevoegd kunnen worden en als één tekening beschouwd kunnen worden
         public DrawingGroup drawingGroup;
 
         // drawing image die we zullen tonen
         public DrawingImage imageSource;
+
+        System.Windows.Controls.Image image;
+
 
         private Timer timer;
 
@@ -121,18 +126,17 @@ namespace Kinect
                         }
 
 
-                    
-
-
-
-
+                  
                     }
                 }
 
 
         }
 
-        public void InitializeSensorAndSkeleton(System.Windows.Controls.Image image)
+
+
+
+        public void InitializeSensorAndSkeleton(System.Windows.Controls.Image image1, System.Windows.Controls.Image image2)
         {
             // nieuwe drawing group maken
             this.drawingGroup = new DrawingGroup();
@@ -141,7 +145,9 @@ namespace Kinect
             this.imageSource = new DrawingImage(this.drawingGroup);
 
             //imagesource linken aan onze image in xaml
-            image.Source = imageSource;
+            image1.Source = imageSource;
+
+            this.image = image2;
 
             // zoek de geconnecteerde kinectsensor en stopt hem in onze property
             foreach (var potentialSensor in KinectSensor.KinectSensors)
@@ -158,11 +164,21 @@ namespace Kinect
             {
 
 
+                
+                //kleur aanzetten
+                this.Sensor.ColorStream.Enable();
+
                 // dit start skeletontracking
                 this.Sensor.SkeletonStream.Enable();
 
 
-                //event op skeleton
+
+
+                
+                //event op colorstream
+                Sensor.ColorFrameReady += Sensor_ColorFrameReady;
+
+                //event op skeletonstream
                 Sensor.SkeletonFrameReady += Sensor_SkeletonFrameReady;
 
 
@@ -178,6 +194,21 @@ namespace Kinect
 
             }
         }
+
+        private void Sensor_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
+        {
+            using (var frame = e.OpenColorImageFrame())
+            {
+                if (frame != null)
+                {
+                    
+                    this.image.Source = frame.ToBitmap();
+                   
+                }
+            }
+        }
+
+       
 
         public void StopSensorAndSkeleton()
         {
@@ -200,6 +231,29 @@ namespace Kinect
                 {
                     this.Skeletons = new Skeleton[skeletonFrame.SkeletonArrayLength];
                     skeletonFrame.CopySkeletonDataTo(this.Skeletons); // skelet informatie van het frame bemachtigen
+                    foreach(Skeleton skel in Skeletons)
+                    {
+                        if(skel.TrackingState == SkeletonTrackingState.Tracked)
+                        {
+                            foreach(Joint joint in skel.Joints)
+                            {
+                                // 3D coordinates in meters
+                                SkeletonPoint skeletonPoint = joint.Position;
+
+                                // 2D coordinates in pixels
+                                Point point = new Point();
+
+                                
+                                // Skeleton-to-Color mapping
+                                ColorImagePoint colorPoint = Sensor.CoordinateMapper.MapSkeletonPointToColorPoint(skeletonPoint, ColorImageFormat.RgbResolution640x480Fps30);
+
+                                point.X = colorPoint.X;
+                                point.Y = colorPoint.Y;
+
+                            }
+                        }
+                    }
+
                     DrawSkeletons();
 
                     
@@ -216,8 +270,8 @@ namespace Kinect
         {
             using (DrawingContext dc = this.drawingGroup.Open())
             {
-                //transparante achtergrond tekenen
-                dc.DrawRectangle(Brushes.Black, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
+                ////transparante achtergrond tekenen
+                //dc.DrawRectangle(Brushes.Black, null, new Rect(0.0, 0.0, RenderWidth, RenderHeight));
 
                 if (Skeletons.Length != 0)
                 {
@@ -339,6 +393,7 @@ namespace Kinect
             // Convert point to depth space.  
             // We are not using depth directly, but we do want the points in our 640x480 output resolution.
             DepthImagePoint depthPoint = this.Sensor.CoordinateMapper.MapSkeletonPointToDepthPoint(skelpoint, DepthImageFormat.Resolution640x480Fps30);
+            ColorImagePoint colorPoint = this.Sensor.CoordinateMapper.MapSkeletonPointToColorPoint(skelpoint, ColorImageFormat.RgbResolution640x480Fps30);
             return new Point(depthPoint.X, depthPoint.Y);
         }
 
