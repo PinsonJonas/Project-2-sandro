@@ -28,14 +28,14 @@ namespace Kinect
 
 
 
-        public DrawSkeleton drawSkeleton { get; set; }
+        public ColorSkeletonData drawSkeleton { get; set; }
 
 
 
         public MainWindow()
         {
             InitializeComponent();
-            this.drawSkeleton = new DrawSkeleton();
+            this.drawSkeleton = new ColorSkeletonData();
             
         }
 

@@ -26,16 +26,22 @@ namespace Kinect
         public Skeleton[] Skeletons;
 
 
-       
+       // image voor colorstream
         System.Windows.Controls.Image image;
 
+
+        //canvas om skelet op te tekenen
         System.Windows.Controls.Canvas canvas;
 
-
+        //timer
         private Timer timer;
 
-        public int index;
 
+        //dictionary voor het tekenen van de bones (zal joint name en zijn position bevatten)
+        public Dictionary<string, Point> dictionary = new Dictionary<string, Point>();
+
+
+        //timer starten
         public void InitTimer()
         {
             Debug.WriteLine("-----Timer Started------");
@@ -45,22 +51,22 @@ namespace Kinect
             timer.AutoReset = true;
         }
 
+        //timer stoppen
         public void StopTimer()
         {
             if(this.timer.Enabled == true)
             {
                 this.timer.Dispose();
-                this.index = 0;
                 Debug.WriteLine("-----Timer Stopped-----");
             }
 
         }
 
+
+        //event na aflopen timer
+        //schrijft iedere x seconden jointpositions weg
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-
-
-            index += 1;
 
 
                 foreach (Skeleton skel in Skeletons)
@@ -105,7 +111,6 @@ namespace Kinect
 
         }
 
-        public Dictionary<string, Point> dictionary = new Dictionary<string, Point>();
 
 
         public void InitializeSensorAndSkeleton(System.Windows.Controls.Canvas canvas, System.Windows.Controls.Image image2)
@@ -175,8 +180,6 @@ namespace Kinect
             }
         }
 
-       
-
         public void StopSensorAndSkeleton()
         {
             if (this.Sensor != null)
@@ -211,14 +214,14 @@ namespace Kinect
 
                             foreach (Joint joint in skel.Joints)
                             {
-                                // 3D coordinates in meters
+                                //3D coordinaten in meter
                                 SkeletonPoint skeletonPoint = joint.Position;
 
-                                // 2D coordinates in pixels
+                                // 2D coordinaten in pixels
                                 Point point = new Point();
 
                                 
-                                // Skeleton-to-Color mapping
+                                // Skelet naar color mapping
                                 ColorImagePoint colorPoint = Sensor.CoordinateMapper.MapSkeletonPointToColorPoint(skeletonPoint, ColorImageFormat.RgbResolution640x480Fps30);
 
                                 point.X = colorPoint.X;
@@ -259,7 +262,7 @@ namespace Kinect
             }
         }
 
-
+        // tekent de bones tussen de verschillende joints adhv x,y van joint1 & joint2
         public void DrawBones(Dictionary<string, Point> dictionary)
         {
             
@@ -494,14 +497,7 @@ namespace Kinect
 
             canvas.Children.Add(line19);
       
-            
-
-
-
             dictionary.Clear();
-
-
-
 
         }
 
