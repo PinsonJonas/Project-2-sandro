@@ -51,7 +51,6 @@ namespace Kinect
         //array van skeletons 
         public Skeleton[] Skeletons;
 
-        public BoneOrientationCollection boneOrientationCollection;
 
         // drawing group voor skelet rendering output
         //dit zorgt ervoor dat meerdere tekeningen samengevoegd kunnen worden en als één tekening beschouwd kunnen worden
@@ -61,6 +60,8 @@ namespace Kinect
         public DrawingImage imageSource;
 
         private Timer timer;
+
+        public int index;
 
         public void InitTimer()
         {
@@ -76,6 +77,7 @@ namespace Kinect
             if(this.timer.Enabled == true)
             {
                 this.timer.Dispose();
+                this.index = 0;
                 Debug.WriteLine("-----Timer Stopped-----");
             }
 
@@ -84,26 +86,42 @@ namespace Kinect
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
 
-            int index = 0;
 
-            foreach (Skeleton skel in Skeletons)
-            {
+            index += 1;
+
+
+                foreach (Skeleton skel in Skeletons)
+            
                 if (skel.TrackingState != null && skel.TrackingState == SkeletonTrackingState.Tracked)
                 {
-                    foreach (BoneOrientation orientation in skel.BoneOrientations)
+
+
+
+                    using (StreamWriter writer = new StreamWriter("D:\\BoneOrientationsTest.txt", true))
                     {
+                        writer.WriteLine("-----------------" + index + "-----------------");
+
+                        foreach (Joint joint in skel.Joints)
+                        {
 
 
-                        string bone = orientation.StartJoint.ToString();
-                        string x = orientation.AbsoluteRotation.Quaternion.X.ToString();
-                        string y = orientation.AbsoluteRotation.Quaternion.Y.ToString();
-                        string z = orientation.AbsoluteRotation.Quaternion.Z.ToString();
+                            string jointname = joint.JointType.ToString();
+                            string x = joint.Position.X.ToString();
+                            string y = joint.Position.Y.ToString();
+                            string z = joint.Position.Z.ToString();
 
 
-                        
-                        string BoneInformation = bone + ": " + x + "/" + y + "/" + z + Environment.NewLine;
 
-                        Debug.WriteLine(BoneInformation);
+                            string JointInformation = jointname + ": " + x + "/" + y + "/" + z + Environment.NewLine;
+
+                            writer.WriteLine(JointInformation);
+
+
+                            Debug.WriteLine(JointInformation);
+                        }
+
+
+                    
 
 
 
@@ -112,7 +130,6 @@ namespace Kinect
                 }
 
 
-            }
         }
 
         public void InitializeSensorAndSkeleton(System.Windows.Controls.Image image)
