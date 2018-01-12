@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Kinect.Model;
 using KinectCoordinateMapping;
 using Microsoft.Kinect;
+using uPLibrary.Networking.M2Mqtt;
+using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Kinect
 {
-    public class DrawSkeleton
+    public class ColorSkeletonData
     {
        
 
@@ -36,6 +40,7 @@ namespace Kinect
         //timer
         private Timer timer;
 
+        public MqttClient client;
 
         //dictionary voor het tekenen van de bones (zal joint name en zijn position bevatten)
         public Dictionary<string, Point> dictionary = new Dictionary<string, Point>();
@@ -60,6 +65,17 @@ namespace Kinect
                 Debug.WriteLine("-----Timer Stopped-----");
             }
 
+            else
+            {
+                return;
+            }
+
+        }
+
+        public void InitMqtt()
+        {
+            this.client = new MqttClient(IPAddress.Parse("52.174.68.36"));
+            client.Connect(Guid.NewGuid().ToString());
         }
 
 
@@ -76,36 +92,34 @@ namespace Kinect
 
 
 
-                    using (StreamWriter writer = new StreamWriter("D:\\BoneOrientationsTest.txt", true))
-                    {
+                    
+                        List<JointCoordinates> jointcoordinates = new List<JointCoordinates>();
 
                         foreach (Joint joint in skel.Joints)
                         {
 
+                            JointCoordinates jointcoordinate = new JointCoordinates();
 
-                            string jointname = joint.JointType.ToString();
-                            string x = joint.Position.X.ToString();
-                            x = x.Replace(",", ".");
-                            string y = joint.Position.Y.ToString();
-                            y = y.Replace(",", ".");
-                            string z = joint.Position.Z.ToString();
-                            z = z.Replace(",", ".");
+                            jointcoordinate.JointName = joint.JointType.ToString();
+                            List<float> floats = new List<float>();
+                            floats.Add(joint.Position.X);
+                            floats.Add(joint.Position.Y);
+                            floats.Add(joint.Position.Z);
+                            jointcoordinate.Coordinates = floats;
+                            jointcoordinates.Add(jointcoordinate);
 
+                           
 
-
-                            string JointInformation = jointname + ": " + x + "," + y + "," + z + "/";
-
-                            writer.Write(JointInformation);
-
-
-                            Debug.WriteLine(JointInformation);
                         }
 
-                        writer.Write("*");
+                        string json = JsonConvert.SerializeObject(jointcoordinates);
+
+                        client.Publish("/Sandro", Encoding.UTF8.GetBytes(json));
 
 
-                  
-                    }
+
+
+                    
                 }
 
 

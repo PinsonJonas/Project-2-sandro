@@ -61,7 +61,9 @@ namespace Kinect
         // Elke zoveel tijd wordt data over joints en boneorientation doorgestuurd
         private void btnStartRecord_Click(object sender, RoutedEventArgs e)
         {
+            drawSkeleton.InitMqtt();
             this.drawSkeleton.InitTimer();
+            
         }
 
 
