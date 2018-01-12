@@ -28,21 +28,21 @@ namespace Kinect
 
 
 
-        public DrawSkeleton drawSkeleton { get; set; }
+        public ColorSkeletonData drawSkeleton { get; set; }
 
 
 
         public MainWindow()
         {
             InitializeComponent();
-            this.drawSkeleton = new DrawSkeleton();
+            this.drawSkeleton = new ColorSkeletonData();
             
         }
 
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.drawSkeleton.InitializeSensorAndSkeleton(imgSkeleton); 
+            this.drawSkeleton.InitializeSensorAndSkeleton(CnvSkeleton, imgCamera); 
         }
 
 
@@ -61,7 +61,9 @@ namespace Kinect
         // Elke zoveel tijd wordt data over joints en boneorientation doorgestuurd
         private void btnStartRecord_Click(object sender, RoutedEventArgs e)
         {
+            drawSkeleton.InitMqtt();
             this.drawSkeleton.InitTimer();
+            
         }
 
 
