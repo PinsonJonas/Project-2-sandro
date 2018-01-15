@@ -1,4 +1,3 @@
-import almath
 import time
 import argparse
 from naoqi import ALProxy

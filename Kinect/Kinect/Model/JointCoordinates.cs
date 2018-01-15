@@ -13,11 +13,6 @@ namespace Kinect.Model
         public String JointName { get; set; }
         [JsonProperty("coordinates")]
         public List<float> Coordinates { get; set; }
-        //[JsonProperty("x")]
-        //public float XCoordinate { get; set; }
-        //[JsonProperty("y")]
-        //public float YCoordinate { get; set; }
-        //[JsonProperty("z")]
-        //public float ZCoordinate { get; set; }
+        
     }
 }
