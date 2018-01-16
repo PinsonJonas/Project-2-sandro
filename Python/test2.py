@@ -1,7 +1,7 @@
 import time
 import argparse
 from naoqi import ALProxy
-
+import almath
 import math
 
 
@@ -31,28 +31,28 @@ def main(robotIP = "172.30.248.162", PORT = 9559):
     # Example showing multiple trajectories
     # Interpolates the head yaw to 1.0 radian and back to zero in 2.0 seconds
     # while interpolating HeadPitch up and down over a longer period.
-    names      = ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"]
+    names      = ["RShoulderRoll", "RShoulderPitch", "RElbowRoll", "RElbowYaw"]
     # Each joint can have lists of different lengths, but the number of
     # angles and the number of times must be the same for each joint.
     # Here, the second joint ("HeadPitch") has three angles, and
     # three corresponding times.
-    angleLists  = [[(80-0.89)*almath.TO_RAD, (80-22.88)*almath.TO_RAD],
-                   [(-0.5-15.15)*almath.TO_RAD, (-0.5-69.56)*almath.TO_RAD],
-                   [(119.5-82.05)*almath.TO_RAD, (119.5-139.59)*almath.TO_RAD],
-                   [(-180+160.94)*almath.TO_RAD, (-180+62.38)*almath.TO_RAD]]
-    timeLists   = [[1.0, 3.0], [ 1.0, 3.0], [1.0, 3.0], [1.0, 3.0]]
+    angleLists  = [[-82*almath.TO_RAD,],
+                   [(46)*almath.TO_RAD,],
+                   [(96)*almath.TO_RAD,],
+                   [(0)*almath.TO_RAD]]
+    timeLists   = [[0.5], [0.5], [0.5], [0.5]]
     isAbsolute  = True
     motionProxy.angleInterpolation(names, angleLists, timeLists, isAbsolute)
 
     # Send NAO to Pose Init
-    postureProxy.goToPosture("StandInit", 0.5)
+    # postureProxy.goToPosture("StandInit", 0.5)
 
-    motionProxy.setStiffnesses("Body", 1.0)
+    # motionProxy.setStiffnesses("Body", 1.0)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--ip", type=str, default="172.30.248.162",
+    parser.add_argument("--ip", type=str, default="172.30.248.87",
                         help="Robot ip address")
     parser.add_argument("--port", type=int, default=9559,
                         help="Robot port number")

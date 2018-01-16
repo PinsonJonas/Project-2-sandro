@@ -15,75 +15,74 @@ import math
 #stop
 # ShoulderRight: 0.03568992,0.5751851,2.444758/ElbowRight: 0.274239,0.6649151,2.406888/WristRight: 0.3891994,0.8548476,2.296391
 
-def angleRShoulderPitch(x2,y2,z2,x1,y1,z1):
+def angleRShoulderRoll(x2,y2,z2,x1,y1,z1):
 
     angle = math.asin((x2-x1)/(math.sqrt((pow(x2-x1,2))+pow(z2-z1,2))))
     angle = math.degrees(angle)
-    print(angle)
-    # if(angle < -76):
-    #     angle = -76
-    #
-    # elif(angle > 17):
-    #     angle = 17
 
     print(angle)
     return angle
 
-
-
-
-def angleRShoulderRoll(x2,y2,z2,x1,y1,z1):
+def angleRShoulderPitch(x2,y2,z2,x1,y1,z1):
 
     angle = math.asin((z2-z1)/(math.sqrt((pow(z2-z1,2))+pow(y2-y1,2))))
     angle = math.degrees(angle)
-    print(angle)
-    # if(angle < -119):
-    #     angle = -119
-    #
-    # elif(angle > 119):
-    #     angle = 119
+    angle = 90-angle
 
-    print(angle)
-    return angle
-
-
-
-
-
-def angleRElbowPitch(x2,y2,z2,x1,y1,z1):
-    angle = angle = math.asin((x2-x1)/(math.sqrt((pow(x2-x1,2))+pow(z2-z1,2))))
-    angle = math.degrees(angle)
-    print(angle)
-    # if(angle < 2):
-    #     angle = 2
-    #
-    # elif(angle > 88):
-    #     angle = 88
     print(angle)
     return angle
 
 
 def angleRElbowRoll(x2,y2,z2,x1,y1,z1):
+    angle = angle = math.asin((x2-x1)/(math.sqrt((pow(x2-x1,2))+pow(z2-z1,2))))
+    angle = math.degrees(angle)
+    angle = angle + 90
+    print(angle)
+    return angle
+
+
+def angleRElbowYaw(x2,y2,z2,x1,y1,z1):
     angle = math.asin((z2 - z1) / (math.sqrt((pow(z2 - z1, 2)) + pow(y2 - y1, 2))))
     angle = math.degrees(angle)
+    angle = angle + 90
     print(angle)
 
 
 
-# angleRShoulderPitch(0.03568992,0.5751851,2.444758,0.274239,0.6649151,2.406888 )
-# angleRShoulderRoll(0.03568992,0.5751851,2.444758,0.274239,0.6649151,2.406888 )
+
+#--------------HITLER---------------
+
+# angleRShoulderPitch(0.223395169, 0.576230049, 2.46206927, 0.35252142, 0.574617, 2.20622349)
 #
-# angleRElbowPitch(0.274239,0.6649151,2.406888, 0.3891994,0.8548476,2.296391)
-# angleRElbowRoll(0.274239,0.6649151,2.406888, 0.3891994,0.8548476,2.296391)
+# angleRShoulderRoll(0.223395169, 0.576230049, 2.46206927, 0.35252142, 0.574617, 2.20622349)
+#
+# angleRElbowPitch(0.35252142, 0.574617, 2.20622349,0.389017761, 0.61063695, 1.95986521)
+#
+# angleRElbowRoll(0.35252142, 0.574617, 2.20622349,0.389017761, 0.61063695, 1.95986521)
 
 
-angleRShoulderPitch(0.06092434,0.5326838,2.438355, 0.1362722,0.2543808,2.442603)
 
-angleRShoulderRoll(0.06092434,0.5326838,2.438355, 0.1362722,0.2543808,2.442603)
+# print("arm naar voor")
+# angleRShoulderRoll(0.02199679, 0.5273222, 2.80220771, 0.146205723, 0.723523259, 2.71396375)
+# angleRShoulderPitch(0.02199679, 0.5273222, 2.80220771, 0.146205723, 0.723523259, 2.71396375)
+# angleRElbowRoll( 0.146205723, 0.723523259, 2.71396375,0.1647887, 0.9566303, 2.64511585)
+# angleRElbowYaw(0.146205723, 0.723523259, 2.71396375,0.1647887, 0.9566303, 2.64511585)
 
-angleRElbowPitch(0.1362722,0.2543808,2.442603,0.3891994,0.8548476,2.296391)
+# angleRShoulderRoll(0.11797893, 0.570831537, 2.50675845, 0.202992275, 0.277180821, 2.48302412)
+print("arm volledig naar buiten")
+angleRShoulderRoll(-0.0391769968, 0.463029563, 2.55212164,0.08141533, 0.206684858, 2.60391641)
+# angleRShoulderPitch(-0.040135894, 0.4721547, 2.7137568,0.169201538, 0.443810672, 2.68723679)
+# angleRElbowRoll(0.169201538, 0.443810672, 2.68723679,0.215785459, 0.6406293, 2.651608)
+# angleRElbowYaw(0.169201538, 0.443810672, 2.68723679,0.215785459, 0.6406293, 2.651608)
 
-angleRElbowRoll(0.1362722,0.2543808,2.442603,0.3891994,0.8548476,2.296391)
+
+
+# angleRElbowPitch(0.535722554, 0.5728591, 2.38850212,0.75688386, 0.5706984, 2.35852218)
+#
+# angleRElbowRoll(0.535722554, 0.5728591, 2.38850212,0.75688386, 0.5706984, 2.35852218)
+
+
+
 
 
 #--------------------EINDE VINCENT--------------------------------

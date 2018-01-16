@@ -150,7 +150,7 @@ def main(robotIP):
 
 
 if __name__ == "__main__":
-    robotIp = "172.30.248.108"
+    robotIp = "172.30.248.87"
 
     if len(sys.argv) <= 1:
         print "Usage python motion_wbMultipleEffectors.py robotIP (optional default: 127.0.0.1)"
