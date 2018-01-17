@@ -1,0 +1,12 @@
+OP DE RASPBERRY WAAR DE BROKER STAAT
+subscribe group op mqtt via raspberry
+mosquitto_sub -d -t {name}
+publish naar de group op raspberry
+mosquitto_pub -d -t {name} -m "{tekst}"
+
+OP EEN ANDER RASPBERRY
+subscribe group op mqtt via raspberry
+mosquitto_sub -h {wifi ip} -t {name}
+publish naar de group op raspberry
+mosquitto_pub -h {wifi ip} -t {name} -m "{tekst}
+
