@@ -71,7 +71,7 @@ def angleRShoulderPitch(x2, y2, z2, x1, y1, z1):
         angle = math.degrees(angle)
         angle = -(angle)
         if(angle<-118):
-            angle = -118
+            angle = -117
         print("ik zit hier in en mijn hoek is {0}").format(angle)
         return angle
 
@@ -114,7 +114,7 @@ def angleLShoulderPitch(x2, y2, z2, x1, y1, z1):
         angle = math.degrees(angle)
         angle = -(angle)
         if (angle < -118):
-            angle = -118
+            angle = -117
         print("ik zit hier in en mijn hoek is {0}").format(angle)
         return angle
     else:
@@ -124,11 +124,6 @@ def angleLShoulderPitch(x2, y2, z2, x1, y1, z1):
         return angle
 
 def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
-    # angle = math.asin((z2 - z1) / (math.sqrt((pow(z2 - z1, 2)) + pow(y2 - y1, 2))))
-    # angle = math.degrees(angle)
-    # # angle = angle
-    # # print(angle)
-    # return angle
 
         if (z2 < z1):
             test = z2
@@ -143,9 +138,7 @@ def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
 
         angle = math.atan((x2-x1)/(z2-z1))
         angle = math.degrees(angle)
-        # print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
-        # print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2, z1)
-        # print("LshoulderRoll: {0}").format(angle)
+
         return angle
 
 
@@ -160,138 +153,26 @@ def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
 
 def angleRElbowRoll(x2, y2, z2, x1, y1, z1):
 
+    if(abs(z2-z1)<0.1):
+        angle=math.atan(abs(x2-x1)/(abs(y2-y1)))
+        angle = 90-angle
+        return angle
 
-     angle = math.atan((x2 - x1) / (z2 - z1))
-     angle = math.degrees(angle)
-     angle = angle
-     print("x-elbow: {0} - x-wrist: {1}").format(x2,x1)
-     print("")
-     print("RElbowRoll: {0}").format(angle)
+    else:
 
-     return angle
+
+         angle = math.atan((x2 - x1) / (z2 - z1))
+         angle = math.degrees(angle)
+         angle = angle
+         print("x-elbow: {0} - x-wrist: {1}").format(x2,x1)
+         print("")
+         print("RElbowRoll: {0}").format(angle)
+
+         return angle
 
 
 #EINDE VINCENT
 
-def angleRshoulderPitch(x1, y1, z1, x2, y2, z2):
-    # print("RShoulderPitch")
-    a1 = (x2 - x2) * 2 + (y1 - y2) * 2 + (z1 - z2) ** 2
-    lineA = a1 ** 0.5
-    # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x2) * 2 + (y2 - y2) * 2 + (z1 - z2) ** 2
-    lineB = a2 ** 0.5
-    # print( "line B: " + str(lineB) +" m")
-    a3 = (x2 - x2) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
-    lineC = a3 ** 0.5
-    # print( "line C: " + str(lineC) +" m")
-    cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
-    acosB = math.acos(cosB)
-    # print( "Radian B: " + str(float(format(acosB, '.3f'))) +" rad")
-    angleB = float(format(math.degrees(acosB), '.2f'))
-    angleB = 90 - angleB
-    # print( "Angle B: " + str(angleB) +" deg")
-    return angleB
-
-
-def angleRshoulderRoll(x1, y1, z1, x2, y2, z2):
-    # print("RShoulderRoll")
-    a1 = (x1 - x2) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
-    lineA = a1 ** 0.5
-    # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x1) * 2 + (y2 - y2) * 2 + (z1 - z1) ** 2
-    lineB = a2 ** 0.5
-    # print( "line B: " + str(lineB) +" m")
-    a3 = (x1 - x1) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
-    lineC = a3 ** 0.5
-    # print( "line C: " + str(lineC) +" m")
-    cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
-    acosB = math.acos(cosB)
-    # print( "Radian B: " + str(float(format(acosB, '.3f'))) +" rad")
-    angleB = float(format(math.degrees(acosB), '.2f'))
-    angleB = - angleB
-    # print( "Angle B: " + str(angleB) +" deg")
-    print("RShoulderRoll: {0}").format(angleB)
-    return angleB
-
-
-def angleRelbowRoll(x1, y1, z1, x2, y2, z2, x3, y3, z3):
-    # print("RElbowRoll")
-    a1 = (x1 - x2) * 2 + (y1 - y2) * 2 + (z1 - z2) ** 2
-    lineA = a1 ** 0.5
-    # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x3) * 2 + (y2 - y3) * 2 + (z2 - z3) ** 2
-    lineB = a2 ** 0.5
-    # print( "line B: " + str(lineB) +" m")
-    a3 = (x1 - x3) * 2 + (y1 - y3) * 2 + (z1 - z3) ** 2
-    lineC = a3 ** 0.5
-    # print( "line C: " + str(lineC) +" m")
-    cosB = (pow(lineA, 2) + pow(lineB, 2) - pow(lineC, 2)) / (2 * lineA * lineB)
-    acosB = math.acos(cosB)
-    # print( "Radian B: " + str(float(format(acosB, '.3f'))) +" rad")
-    angleB = float(format(math.degrees(acosB), '.2f'))
-    angleB = angleB + 90
-    # print( "Angle B: " + str(angleB) +" deg")
-    return angleB
-
-
-def angleRelbowYaw(x1, y1, z1, x2, y2, z2):
-    # print("RElbowYaw")
-    a1 = (x1 - x2) * 2 + (y1 - y2) * 2 + (z1 - z2) ** 2
-    lineA = a1 ** 0.5
-    # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x2) * 2 + (y2 - y1) * 2 + (z2 - z2) ** 2
-    lineB = a2 ** 0.5
-    # print( "line B: " + str(lineB) +" m")
-    a3 = (x1 - x2) * 2 + (y1 - y1) * 2 + (z1 - z2) ** 2
-    lineC = a3 ** 0.5
-    # print( "line C: " + str(lineC) +" m")
-    cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
-    acosB = math.acos(cosB)
-    # print( "Radian B: " + str(float(format(acosB, '.3f'))) +" rad")
-    angleB = float(format(math.degrees(acosB), '.2f'))
-    angleB = angleB + 90
-    # print( "Angle B: " + str(angleB) +" deg")
-    return angleB
-
-
-def angleLshoulderPitch(x1, y1, z1, x2, y2, z2):
-    # print("RShoulderPitch")
-    a1 = (x2 - x2) * 2 + (y1 - y2) * 2 + (z1 - z2) ** 2
-    lineA = a1 ** 0.5
-    # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x2) * 2 + (y2 - y2) * 2 + (z1 - z2) ** 2
-    lineB = a2 ** 0.5
-    # print( "line B: " + str(lineB) +" m")
-    a3 = (x2 - x2) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
-    lineC = a3 ** 0.5
-    # print( "line C: " + str(lineC) +" m")
-    cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
-    acosB = math.acos(cosB)
-    # print( "Radian B: " + str(float(format(acosB, '.3f'))) +" rad")
-    angleB = float(format(math.degrees(acosB), '.2f'))
-    angleB = 90 - angleB
-    # print( "Angle B: " + str(angleB) +" deg")
-    return angleB
-
-
-def angleLshoulderRoll(x1, y1, z1, x2, y2, z2):
-    # print("RShoulderRoll")
-    a1 = (x1 - x2) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
-    lineA = a1 ** 0.5
-    # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x1) * 2 + (y2 - y2) * 2 + (z1 - z1) ** 2
-    lineB = a2 ** 0.5
-    # print( "line B: " + str(lineB) +" m")
-    a3 = (x1 - x1) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
-    lineC = a3 ** 0.5
-    # print( "line C: " + str(lineC) +" m")
-    cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
-    acosB = math.acos(cosB)
-    # print( "Radian B: " + str(float(format(acosB, '.3f'))) +" rad")
-    angleB = float(format(math.degrees(acosB), '.2f'))
-    angleB = -angleB
-    # print( "Angle B: " + str(angleB) +" deg")
-    return angleB
 
 
 def on_connect(client, userdata, flags, rc):
@@ -352,5 +233,5 @@ client.on_connect = on_connect
 
 client.on_message = on_message
 
-client.connect("172.30.252.101", 1883, 60)
+client.connect("169.254.10.11", 1883, 60)
 client.loop_forever()
