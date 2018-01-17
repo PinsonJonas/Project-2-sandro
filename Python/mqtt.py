@@ -126,17 +126,28 @@ def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
     print("RElbowYaw: {0} ").format(angle)
     return angle
 
-def angleRElbowRoll(x2, y2, z2, x1, y1, z1):
-
-    if(abs(x2-x1) < 0.2 and abs(z2-z1)<0.2):
-        if(x2>x1):
-            return 0
-
-        else:
-            return 90
-
-
-
+def angleRElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1):
+    if(abs(x2-x1) < 0.1 and abs(z2-z1)<0.1 and (x2<x3)):   
+        print("recht naar beneden")     
+        return 0   
+    elif(abs(x2-x1) < 0.1 and abs(y2-y1)<0.1 and (x2<x3)):  
+        print("naar beneden gebogen")      
+        return 90     
+    elif(abs(y2-y1) < 0.1 and abs(x2-x1)<0.1 and (z2<z3)):
+        print("recht naar voor")
+        return 0
+    elif(abs(z2-z1) < 0.1 and abs(x2-x1)<0.1 and (z2<z3)):
+        print("recht naar voor gebogen")
+        return 90
+    elif(abs(y2-y1) < 0.1 and abs(z2-z1)<0.1 and (x1<x2)):
+        print("naar rechts")
+        return 0
+    elif(abs(z2-z1) < 0.1 and abs(x2-x1)<0.1 and (x2<x3)):
+        print("naar rechts gebogen")
+        return 90
+    else:
+        print("niets")
+        return 0
     # if(abs(z2-z1)<0.15):
     #
     #     if(abs(x2-x1<0.15)):
@@ -210,7 +221,7 @@ def on_message(client, userdata, msg):
                 angleRShoulderRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
                                    elbowRight[2]))
             listAngles.append(
-                angleRElbowRoll(elbowRight[0], elbowRight[1],
+                angleRElbowRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
                                 elbowRight[2], wristRight[0], wristRight[1], wristRight[2]))
             listAngles.append(
             angleRElbowYaw(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
