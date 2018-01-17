@@ -171,13 +171,13 @@ def angleRElbowRoll(x2, y2, z2, x1, y1, z1):
 
 def angleRshoulderPitch(x1, y1, z1, x2, y2, z2):
     # print("RShoulderPitch")
-    a1 = (x2 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2
+    a1 = (x2 - x2) * 2 + (y1 - y2) * 2 + (z1 - z2) ** 2
     lineA = a1 ** 0.5
     # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x2) ** 2 + (y2 - y2) ** 2 + (z1 - z2) ** 2
+    a2 = (x2 - x2) * 2 + (y2 - y2) * 2 + (z1 - z2) ** 2
     lineB = a2 ** 0.5
     # print( "line B: " + str(lineB) +" m")
-    a3 = (x2 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z1) ** 2
+    a3 = (x2 - x2) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
     lineC = a3 ** 0.5
     # print( "line C: " + str(lineC) +" m")
     cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
@@ -191,13 +191,13 @@ def angleRshoulderPitch(x1, y1, z1, x2, y2, z2):
 
 def angleRshoulderRoll(x1, y1, z1, x2, y2, z2):
     # print("RShoulderRoll")
-    a1 = (x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z1) ** 2
+    a1 = (x1 - x2) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
     lineA = a1 ** 0.5
     # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x1) ** 2 + (y2 - y2) ** 2 + (z1 - z1) ** 2
+    a2 = (x2 - x1) * 2 + (y2 - y2) * 2 + (z1 - z1) ** 2
     lineB = a2 ** 0.5
     # print( "line B: " + str(lineB) +" m")
-    a3 = (x1 - x1) ** 2 + (y1 - y2) ** 2 + (z1 - z1) ** 2
+    a3 = (x1 - x1) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
     lineC = a3 ** 0.5
     # print( "line C: " + str(lineC) +" m")
     cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
@@ -212,13 +212,13 @@ def angleRshoulderRoll(x1, y1, z1, x2, y2, z2):
 
 def angleRelbowRoll(x1, y1, z1, x2, y2, z2, x3, y3, z3):
     # print("RElbowRoll")
-    a1 = (x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2
+    a1 = (x1 - x2) * 2 + (y1 - y2) * 2 + (z1 - z2) ** 2
     lineA = a1 ** 0.5
     # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x3) ** 2 + (y2 - y3) ** 2 + (z2 - z3) ** 2
+    a2 = (x2 - x3) * 2 + (y2 - y3) * 2 + (z2 - z3) ** 2
     lineB = a2 ** 0.5
     # print( "line B: " + str(lineB) +" m")
-    a3 = (x1 - x3) ** 2 + (y1 - y3) ** 2 + (z1 - z3) ** 2
+    a3 = (x1 - x3) * 2 + (y1 - y3) * 2 + (z1 - z3) ** 2
     lineC = a3 ** 0.5
     # print( "line C: " + str(lineC) +" m")
     cosB = (pow(lineA, 2) + pow(lineB, 2) - pow(lineC, 2)) / (2 * lineA * lineB)
@@ -232,13 +232,13 @@ def angleRelbowRoll(x1, y1, z1, x2, y2, z2, x3, y3, z3):
 
 def angleRelbowYaw(x1, y1, z1, x2, y2, z2):
     # print("RElbowYaw")
-    a1 = (x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2
+    a1 = (x1 - x2) * 2 + (y1 - y2) * 2 + (z1 - z2) ** 2
     lineA = a1 ** 0.5
     # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x2) ** 2 + (y2 - y1) ** 2 + (z2 - z2) ** 2
+    a2 = (x2 - x2) * 2 + (y2 - y1) * 2 + (z2 - z2) ** 2
     lineB = a2 ** 0.5
     # print( "line B: " + str(lineB) +" m")
-    a3 = (x1 - x2) ** 2 + (y1 - y1) ** 2 + (z1 - z2) ** 2
+    a3 = (x1 - x2) * 2 + (y1 - y1) * 2 + (z1 - z2) ** 2
     lineC = a3 ** 0.5
     # print( "line C: " + str(lineC) +" m")
     cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
@@ -252,13 +252,13 @@ def angleRelbowYaw(x1, y1, z1, x2, y2, z2):
 
 def angleLshoulderPitch(x1, y1, z1, x2, y2, z2):
     # print("RShoulderPitch")
-    a1 = (x2 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2
+    a1 = (x2 - x2) * 2 + (y1 - y2) * 2 + (z1 - z2) ** 2
     lineA = a1 ** 0.5
     # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x2) ** 2 + (y2 - y2) ** 2 + (z1 - z2) ** 2
+    a2 = (x2 - x2) * 2 + (y2 - y2) * 2 + (z1 - z2) ** 2
     lineB = a2 ** 0.5
     # print( "line B: " + str(lineB) +" m")
-    a3 = (x2 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z1) ** 2
+    a3 = (x2 - x2) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
     lineC = a3 ** 0.5
     # print( "line C: " + str(lineC) +" m")
     cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
@@ -272,13 +272,13 @@ def angleLshoulderPitch(x1, y1, z1, x2, y2, z2):
 
 def angleLshoulderRoll(x1, y1, z1, x2, y2, z2):
     # print("RShoulderRoll")
-    a1 = (x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z1) ** 2
+    a1 = (x1 - x2) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
     lineA = a1 ** 0.5
     # print( "line A: " + str(lineA) +" m")
-    a2 = (x2 - x1) ** 2 + (y2 - y2) ** 2 + (z1 - z1) ** 2
+    a2 = (x2 - x1) * 2 + (y2 - y2) * 2 + (z1 - z1) ** 2
     lineB = a2 ** 0.5
     # print( "line B: " + str(lineB) +" m")
-    a3 = (x1 - x1) ** 2 + (y1 - y2) ** 2 + (z1 - z1) ** 2
+    a3 = (x1 - x1) * 2 + (y1 - y2) * 2 + (z1 - z1) ** 2
     lineC = a3 ** 0.5
     # print( "line C: " + str(lineC) +" m")
     cosB = (pow(lineA, 2) + pow(lineC, 2) - pow(lineB, 2)) / (2 * lineA * lineC)
