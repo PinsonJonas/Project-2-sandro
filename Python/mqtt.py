@@ -33,7 +33,7 @@ def sendrobot(anglelist, robotIP="172.30.248.73", PORT=9559):
 
         if (t == 0):
             motionProxy.setStiffnesses("Body", 0.0)
-            postureProxy.goToPosture("StandInit", 0.5)
+            postureProxy.goToPosture("StandInit", 0.5)        
 
         names = ["RShoulderPitch", "RShoulderRoll", "RElbowRoll", "RElbowYaw",  "LShoulderPitch", "LShoulderRoll"]
 
@@ -52,7 +52,7 @@ def sendrobot(anglelist, robotIP="172.30.248.73", PORT=9559):
         isAbsolute = True
         motionProxy.angleInterpolation(names, angleLists, timeLists, isAbsolute)
         # print(angleLists)
-        t += 1
+        t += 1   
     except (KeyboardInterrupt, SystemExit):
         postureProxy.goToPosture("StandInit", 0.5)
         motionProxy.setStiffnesses("Body", 1.0)
@@ -70,41 +70,29 @@ def angleRShoulderPitch(x2, y2, z2, x1, y1, z1):
             angle = -117
         print("ik zit hier in en mijn hoek is {0}").format(angle)
         return angle
-
     else:
-
         angle = math.atan((z2-z1)/(y2-y1))
         angle = math.degrees(angle)
         angle = 90-angle
         return angle
 
-
 def angleRShoulderRoll(x2, y2, z2, x1, y1, z1):
-
-
-        if(z2<z1):
-
-            test = z2
-            anderetest = z1
-
-            z2=anderetest
-            z1=test
-
-
-        if (z2 - z1 < 0.1):
-            z2 = 1.0
-            z1 = 0.8
-
-        angle = math.atan((x2 - x1) / (z2 - z1))
-        angle = math.degrees(angle)
-        # print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
-        # print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2,z1)
-        # print("RshoulderRoll: {0}").format(angle)
-        return angle
-
+    if(z2<z1):
+        test = z2
+        anderetest = z1
+        z2=anderetest
+        z1=test
+    if (z2 - z1 < 0.1):
+        z2 = 1.0
+        z1 = 0.8
+    angle = math.atan((x2 - x1) / (z2 - z1))
+    angle = math.degrees(angle)
+    # print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
+    # print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2,z1)
+    # print("RshoulderRoll: {0}").format(angle)
+    return angle
 
 def angleLShoulderPitch(x2, y2, z2, x1, y1, z1):
-
     if (y2 < y1):
         angle = math.atan(abs(y2 - y1) / abs(z2 - z1))
         angle = math.degrees(angle)
@@ -119,24 +107,17 @@ def angleLShoulderPitch(x2, y2, z2, x1, y1, z1):
         return angle
 
 def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
-
-        if (z2 < z1):
-            test = z2
-            anderetest = z1
-
-            z2 = anderetest
-            z1 = test
-
-        if(z2-z1< 0.1):
-            z2=1.0
-            z1=0.8
-
-        angle = math.atan((x2-x1)/(z2-z1))
-        angle = math.degrees(angle)
-
-        return angle
-
-
+    if (z2 < z1):
+        test = z2
+        anderetest = z1
+        z2 = anderetest
+        z1 = test
+    if(z2-z1< 0.1):
+        z2=1.0
+        z1=0.8
+    angle = math.atan((x2-x1)/(z2-z1))
+    angle = math.degrees(angle)
+    return angle
 
 def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
     angle = math.atan((z2 - z1) / (y2 - y1))
@@ -145,8 +126,8 @@ def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
     print("RElbowYaw: {0} ").format(angle)
     return angle
 
-
 def angleRElbowRoll(x2, y2, z2, x1, y1, z1):
+<<<<<<< HEAD
 
     if(abs(x2-x1) < 0.2 and abs(z2-z1)<0.2):
         if(x2>x1):
@@ -189,6 +170,20 @@ def angleRElbowRoll(x2, y2, z2, x1, y1, z1):
     print("RElbowRoll: {0}").format(angle)
 
     return angle
+=======
+    if(abs(z2-z1)<0.1):
+        angle=math.atan(abs(x2-x1)/(abs(y2-y1)))
+        angle = 90-angle
+        return angle
+    else:
+         angle = math.atan((x2 - x1) / (z2 - z1))
+         angle = math.degrees(angle)
+         angle = angle
+         print("x-elbow: {0} - x-wrist: {1}").format(x2,x1)
+         print("")
+         print("RElbowRoll: {0}").format(angle)
+         return angle
+>>>>>>> 4cc7b20228a12e805c242333779ec9bc3a2aaa24
 
 
 #EINDE VINCENT
@@ -222,8 +217,6 @@ def on_message(client, userdata, msg):
             wristRight = i['coordinates']
             # print(i['coordinates'])
             # print(shoulderRight)
-
-
 
             listAngles.append(
                 angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
