@@ -75,25 +75,25 @@ def angleRShoulderRoll(x2, y2, z2, x1, y1, z1):
     #
     # return angle
 
-        if(z2<z1):
+    if(z2<z1):
 
-            test = z2
-            anderetest = z1
+        test = z2
+        anderetest = z1
 
-            z2=anderetest
-            z1=test
+        z2=anderetest
+        z1=test
 
 
-        if (z2 - z1 < 0.1):
-            z2 = 1.0
-            z1 = 0.8
+    if (z2 - z1 < 0.1):
+        z2 = 1.0
+        z1 = 0.8
 
-        angle = math.atan((x2 - x1) / (z2 - z1))
-        angle = math.degrees(angle)
-        print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
-        print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2,z1)
-        print("RshoulderRoll: {0}").format(angle)
-        return angle
+    angle = math.atan((x2 - x1) / (z2 - z1))
+    angle = math.degrees(angle)
+    print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
+    print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2,z1)
+    print("RshoulderRoll: {0}").format(angle)
+    return angle
 
 
 def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
@@ -103,23 +103,23 @@ def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
     # # print(angle)
     # return angle
 
-        if (z2 < z1):
-            test = z2
-            anderetest = z1
+    if (z2 < z1):
+        test = z2
+        anderetest = z1
 
-            z2 = anderetest
-            z1 = test
+        z2 = anderetest
+        z1 = test
 
-        if(z2-z1< 0.1):
-            z2=1.0
-            z1=0.8
+    if(z2-z1< 0.1):
+        z2=1.0
+        z1=0.8
 
-        angle = math.atan((x2-x1)/(z2-z1))
-        angle = math.degrees(angle)
-        print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
-        print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2, z1)
-        print("LshoulderRoll: {0}").format(angle)
-        return angle
+    angle = math.atan((x2-x1)/(z2-z1))
+    angle = math.degrees(angle)
+    print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
+    print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2, z1)
+    print("LshoulderRoll: {0}").format(angle)
+    return angle
 
 
 
@@ -266,25 +266,6 @@ def angleLshoulderRoll(x1, y1, z1, x2, y2, z2):
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
     client.subscribe("/Sandro")
-
-
-# def on_message(client, userdata, msg):
-#     # print(msg.topic+" "+str(msg.payload))
-#     payload = json.loads(msg.payload.decode('utf-8'))
-#     for i in payload:
-#         print(i['jointname'])
-#         if i['jointname'] == "ShoulderRight":
-#             shoulderRight = i['coordinates']
-#         if i['jointname'] == "ElbowRight":
-#             elbowRight = i['coordinates']
-#         if i['jointname'] == "WristRight":
-#             wristRight = i['coordinates']
-#             listAngles.append(angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1], elbowRight[2]))
-#             listAngles.append(angleRShoulderRoll(shoulderRight[0],shoulderRight[1],shoulderRight[2], elbowRight[0], elbowRight[1], elbowRight[2]))
-#             listAngles.append(angleRElbowPitch(elbowRight[0], elbowRight[1], elbowRight[2], wristRight[0], wristRight[1], wristRight[2]))
-#             listAngles.append(angleRElbowRoll(elbowRight[0], elbowRight[1], elbowRight[2], wristRight[0], wristRight[1], wristRight[2]))
-#     sendrobot(listAngles,"172.30.248.87", 9559)
-#     print("-----------------------------------")
 
 def on_message(client, userdata, msg):
     # print(msg.topic+" "+str(msg.payload))
