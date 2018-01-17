@@ -127,7 +127,6 @@ def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
     return angle
 
 def angleRElbowRoll(x2, y2, z2, x1, y1, z1):
-<<<<<<< HEAD
 
     if(abs(x2-x1) < 0.2 and abs(z2-z1)<0.2):
         if(x2>x1):
@@ -170,20 +169,6 @@ def angleRElbowRoll(x2, y2, z2, x1, y1, z1):
     print("RElbowRoll: {0}").format(angle)
 
     return angle
-=======
-    if(abs(z2-z1)<0.1):
-        angle=math.atan(abs(x2-x1)/(abs(y2-y1)))
-        angle = 90-angle
-        return angle
-    else:
-         angle = math.atan((x2 - x1) / (z2 - z1))
-         angle = math.degrees(angle)
-         angle = angle
-         print("x-elbow: {0} - x-wrist: {1}").format(x2,x1)
-         print("")
-         print("RElbowRoll: {0}").format(angle)
-         return angle
->>>>>>> 4cc7b20228a12e805c242333779ec9bc3a2aaa24
 
 
 #EINDE VINCENT
