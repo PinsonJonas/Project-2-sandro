@@ -111,7 +111,6 @@ def angleLShoulderPitch(x2, y2, z2, x1, y1, z1):
         angle = -(angle)
         if (angle < -118):
             angle = -117
-        print("ik zit hier in en mijn hoek is {0}").format(angle)
         return angle
     else:
         angle = math.atan((z2 - z1) / (y2 - y1))
@@ -149,22 +148,47 @@ def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
 
 def angleRElbowRoll(x2, y2, z2, x1, y1, z1):
 
-    if(abs(z2-z1)<0.1):
-        angle=math.atan(abs(x2-x1)/(abs(y2-y1)))
-        angle = 90-angle
-        return angle
+    if(abs(x2-x1) < 0.2 and abs(z2-z1)<0.2):
+        if(x2>x1):
+            return 0
 
-    else:
+        else:
+            return 90
 
 
-         angle = math.atan((x2 - x1) / (z2 - z1))
-         angle = math.degrees(angle)
-         angle = angle
-         print("x-elbow: {0} - x-wrist: {1}").format(x2,x1)
-         print("")
-         print("RElbowRoll: {0}").format(angle)
 
-         return angle
+    # if(abs(z2-z1)<0.15):
+    #
+    #     if(abs(x2-x1<0.15)):
+    #         return 0
+    #
+    #     else:
+    #         angle = math.atan(abs(x2 - x1) / (abs(y2 - y1)))
+    #         angle = 90 - angle
+    #         return angle
+    #
+    # elif y2-y1<0.15 and x2-x1<0.15:
+    #     return 0
+
+
+    #
+    # angle=math.atan((x2-x1)/(z2-z1))
+    # angle=math.degrees(angle)
+    # angle = 90-angle
+    # return angle
+
+    # if(abs(y2-y1)<0.1):
+    #     angle=math.atan()
+
+    # else:
+    #
+    angle = math.atan((x2 - x1) / (z2 - z1))
+    angle = math.degrees(angle)
+    angle = angle
+    print("mijn z's zijn niet meer bijna gelijk en ik heb een hoek van {0}").format(angle)
+    print("RElbowRoll: {0}").format(angle)
+
+    return angle
 
 
 #EINDE VINCENT
@@ -212,7 +236,7 @@ def on_message(client, userdata, msg):
                                 elbowRight[2], wristRight[0], wristRight[1], wristRight[2]))
             listAngles.append(
             angleRElbowYaw(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
-                               elbowRight[2],angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
+                               elbowRight[2], angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
                                     elbowRight[2])))
             listAngles.append(
                 angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
