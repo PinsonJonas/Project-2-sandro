@@ -59,21 +59,28 @@ def sendrobot(anglelist, robotIP="172.30.248.73", PORT=9559):
         raise
 
 
+#BEGIN VINCENT
+
 def angleRShoulderPitch(x2, y2, z2, x1, y1, z1):
-    angle = math.atan((y2-y1)/(z2-z1))
-    angle = math.degrees(angle)
-    angle = 90-angle
-    return angle
+    if(y2<y1):
+        angle = math.atan(abs(y2 - y1) / abs(z2 - z1))
+        angle = math.degrees(angle)
+        angle = -(angle)
+        if(angle<-118):
+            angle = -118
+        print("ik zit hier in en mijn hoek is {0}").format(angle)
+        return angle
+
+    else:
+
+        angle = math.atan((z2-z1)/(y2-y1))
+        angle = math.degrees(angle)
+        angle = 90-angle
+        return angle
 
 
 def angleRShoulderRoll(x2, y2, z2, x1, y1, z1):
-    # angle = math.asin((z2 - z1) / (math.sqrt((pow(z2 - z1, 2)) + pow(y2 - y1, 2))))
-    # angle = math.degrees(angle)
-    # # angle = angle
-    # # print(angle)
-    # print("RshoulderRoll: {0}").format(angle)
-    #
-    # return angle
+
 
         if(z2<z1):
 
@@ -90,11 +97,27 @@ def angleRShoulderRoll(x2, y2, z2, x1, y1, z1):
 
         angle = math.atan((x2 - x1) / (z2 - z1))
         angle = math.degrees(angle)
-        print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
-        print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2,z1)
-        print("RshoulderRoll: {0}").format(angle)
+        # print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
+        # print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2,z1)
+        # print("RshoulderRoll: {0}").format(angle)
         return angle
 
+
+def angleLShoulderPitch(x2, y2, z2, x1, y1, z1):
+
+    if (y2 < y1):
+        angle = math.atan(abs(y2 - y1) / abs(z2 - z1))
+        angle = math.degrees(angle)
+        angle = -(angle)
+        if (angle < -118):
+            angle = -118
+        print("ik zit hier in en mijn hoek is {0}").format(angle)
+        return angle
+    else:
+        angle = math.atan((z2 - z1) / (y2 - y1))
+        angle = math.degrees(angle)
+        angle = 90 - angle
+        return angle
 
 def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
     # angle = math.asin((z2 - z1) / (math.sqrt((pow(z2 - z1, 2)) + pow(y2 - y1, 2))))
@@ -116,9 +139,9 @@ def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
 
         angle = math.atan((x2-x1)/(z2-z1))
         angle = math.degrees(angle)
-        print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
-        print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2, z1)
-        print("LshoulderRoll: {0}").format(angle)
+        # print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
+        # print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2, z1)
+        # print("LshoulderRoll: {0}").format(angle)
         return angle
 
 
@@ -126,7 +149,7 @@ def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
 def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
     angle = math.atan((z2 - z1) / (y2 - y1))
     angle = math.degrees(angle)
-    angle= angle + 90-abs(shoulderpitch)
+    angle= angle + abs(shoulderpitch)
     print("RElbowYaw: {0} ").format(angle)
     return angle
 
@@ -137,10 +160,14 @@ def angleRElbowRoll(x2, y2, z2, x1, y1, z1):
      angle = math.atan((x2 - x1) / (z2 - z1))
      angle = math.degrees(angle)
      angle = angle
+     print("x-elbow: {0} - x-wrist: {1}").format(x2,x1)
+     print("")
      print("RElbowRoll: {0}").format(angle)
 
      return angle
 
+
+#EINDE VINCENT
 
 def angleRshoulderPitch(x1, y1, z1, x2, y2, z2):
     # print("RShoulderPitch")
@@ -268,23 +295,6 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("/Sandro")
 
 
-# def on_message(client, userdata, msg):
-#     # print(msg.topic+" "+str(msg.payload))
-#     payload = json.loads(msg.payload.decode('utf-8'))
-#     for i in payload:
-#         print(i['jointname'])
-#         if i['jointname'] == "ShoulderRight":
-#             shoulderRight = i['coordinates']
-#         if i['jointname'] == "ElbowRight":
-#             elbowRight = i['coordinates']
-#         if i['jointname'] == "WristRight":
-#             wristRight = i['coordinates']
-#             listAngles.append(angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1], elbowRight[2]))
-#             listAngles.append(angleRShoulderRoll(shoulderRight[0],shoulderRight[1],shoulderRight[2], elbowRight[0], elbowRight[1], elbowRight[2]))
-#             listAngles.append(angleRElbowPitch(elbowRight[0], elbowRight[1], elbowRight[2], wristRight[0], wristRight[1], wristRight[2]))
-#             listAngles.append(angleRElbowRoll(elbowRight[0], elbowRight[1], elbowRight[2], wristRight[0], wristRight[1], wristRight[2]))
-#     sendrobot(listAngles,"172.30.248.87", 9559)
-#     print("-----------------------------------")
 
 def on_message(client, userdata, msg):
     # print(msg.topic+" "+str(msg.payload))
@@ -311,7 +321,7 @@ def on_message(client, userdata, msg):
 
 
             listAngles.append(
-                angleRshoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
+                angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
                                     elbowRight[2]))
             listAngles.append(
                 angleRShoulderRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
@@ -320,10 +330,11 @@ def on_message(client, userdata, msg):
                 angleRElbowRoll(elbowRight[0], elbowRight[1],
                                 elbowRight[2], wristRight[0], wristRight[1], wristRight[2]))
             listAngles.append(
-            angleRshoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
-                               elbowRight[2]))
+            angleRElbowYaw(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
+                               elbowRight[2],angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
+                                    elbowRight[2])))
             listAngles.append(
-                angleLshoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
+                angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                     elbowLeft[2]))
             listAngles.append(
                 angleLShouderRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
@@ -337,5 +348,5 @@ client.on_connect = on_connect
 
 client.on_message = on_message
 
-client.connect("52.174.68.36", 1883, 60)
+client.connect("172.30.252.101", 1883, 60)
 client.loop_forever()
