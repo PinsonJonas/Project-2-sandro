@@ -50,7 +50,7 @@ namespace Kinect
         public void InitTimer()
         {
             Debug.WriteLine("-----Timer Started------");
-            timer = new Timer(600);
+            timer = new Timer(800);
             timer.Elapsed += Timer_Elapsed;
             timer.Enabled = true;
             //timer.AutoReset = true;
@@ -74,7 +74,7 @@ namespace Kinect
 
         public void InitMqtt()
         {
-            this.client = new MqttClient(IPAddress.Parse("172.30.252.101"));
+            this.client = new MqttClient(IPAddress.Parse("169.254.10.11"));
             client.Connect(Guid.NewGuid().ToString());
         }
 
