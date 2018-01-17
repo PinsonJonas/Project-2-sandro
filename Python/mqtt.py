@@ -35,6 +35,8 @@ def sendrobot(anglelist, robotIP="172.30.248.73", PORT=9559):
             motionProxy.setStiffnesses("Body", 0.0)
             postureProxy.goToPosture("StandInit", 0.5)
 
+        
+
         names = ["RShoulderPitch", "RShoulderRoll", "RElbowRoll", "RElbowYaw",  "LShoulderPitch", "LShoulderRoll"]
 
         #"RElbowYaw", "RElbowRoll",
@@ -53,6 +55,8 @@ def sendrobot(anglelist, robotIP="172.30.248.73", PORT=9559):
         motionProxy.angleInterpolation(names, angleLists, timeLists, isAbsolute)
         # print(angleLists)
         t += 1
+        print(taskList)
+        
     except (KeyboardInterrupt, SystemExit):
         postureProxy.goToPosture("StandInit", 0.5)
         motionProxy.setStiffnesses("Body", 1.0)
