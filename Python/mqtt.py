@@ -17,7 +17,7 @@ wristRight = []
 t = 0
 
 
-def sendrobot(anglelist, robotIP="172.30.248.73", PORT=9559):
+def sendrobot(anglelist, robotIP="172.30.248.56", PORT=9559):
     try:
         try:
             motionProxy = ALProxy("ALMotion", robotIP, PORT)
@@ -152,24 +152,6 @@ def angleRElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1):
     print("RElbowRoll", angle)
     return angle
 
-
-
-    #     b = math.sqrt(pow((z2-z1),2)+pow((x2-x1),2))
-    #     c = math.sqrt(pow((x3-x2),2)+ pow((z3-z2),2))
-    #     a = math.sqrt(pow((z3-z1),2)+pow((x3-x1),2))
-
-    #     angle = math.acos((pow(b,2)+pow(c,2)-pow(a,2))/(2*b*c))
-    #     angle = 160- math.degrees(angle)
-    #     print("RElbowRoll: {0}").format(angle)
-    #     return angle
-
-    # angle = math.atan((x2 - x1) / (z2 - z1))
-    # angle = math.degrees(angle)
-    # angle = angle
-    # print("mijn z's zijn niet meer bijna gelijk en ik heb een hoek van {0}").format(angle)
-    # print("RElbowRoll: {0}").format(angle)
-
-    # return angle
 
 def angleLElbowYaw(x2, y2, z2, x1, y1, z1, shoulderpitch):
     if(abs(y2-y1)<0.1 and abs(z2-z1) < 0.1 and (x1>x2) ):

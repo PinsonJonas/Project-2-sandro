@@ -74,7 +74,9 @@ namespace Kinect
 
         public void InitMqtt()
         {
-            this.client = new MqttClient(IPAddress.Parse("169.254.10.11"));
+            //this.client = new MqttClient(IPAddress.Parse("169.254.10.11"));
+            this.client = new MqttClient(IPAddress.Parse("52.174.68.36"));
+
             client.Connect(Guid.NewGuid().ToString());
         }
 
