@@ -10,6 +10,7 @@ from naoqi import ALProxy
 listAngles = []
 shoulderLeft = []
 elbowLeft = []
+wristLeft = []
 shoulderRight = []
 elbowRight = []
 wristRight = []
@@ -35,31 +36,26 @@ def sendrobot(anglelist, robotIP="172.30.248.73", PORT=9559):
             motionProxy.setStiffnesses("Body", 0.0)
             postureProxy.goToPosture("StandInit", 0.5)        
 
-        names = ["RShoulderPitch", "RShoulderRoll", "RElbowRoll", "RElbowYaw",  "LShoulderPitch", "LShoulderRoll"]
+        names = ["RShoulderPitch", "RShoulderRoll", "RElbowRoll", "RElbowYaw",  "LShoulderPitch", "LShoulderRoll", "LElbowRoll", "LElbowYaw"]
 
-        #"RElbowYaw", "RElbowRoll",
-        #[(anglelist[len(anglelist) - 5]) * almath.TO_RAD],
-        #[(anglelist[len(anglelist) - 4]) * almath.TO_RAD],
-        #, [0.4], [0.4]
-        # [(anglelist[len(anglelist) - 6]) * almath.TO_RAD]
-        angleLists = [[(anglelist[len(anglelist) - 6]) * almath.TO_RAD],
+        angleLists = [[(anglelist[len(anglelist) - 8]) * almath.TO_RAD],
+                      [(anglelist[len(anglelist) - 7]) * almath.TO_RAD],
+                      [(anglelist[len(anglelist) - 6]) * almath.TO_RAD],
                       [(anglelist[len(anglelist) - 5]) * almath.TO_RAD],
                       [(anglelist[len(anglelist) - 4]) * almath.TO_RAD],
                       [(anglelist[len(anglelist) - 3]) * almath.TO_RAD],
                       [(anglelist[len(anglelist) - 2]) * almath.TO_RAD],
                       [(anglelist[len(anglelist) - 1]) * almath.TO_RAD]]
-        timeLists = [[0.4], [0.4], [0.4], [0.4],[0.4],[0.4]]
+        timeLists = [[0.4], [0.4], [0.4], [0.4], [0.4], [0.4], [0.4], [0.4]]
         isAbsolute = True
         motionProxy.angleInterpolation(names, angleLists, timeLists, isAbsolute)
-        # print(angleLists)
-        t += 1   
+        t += 1  
+    except Exception:
+        pass
     except (KeyboardInterrupt, SystemExit):
         postureProxy.goToPosture("StandInit", 0.5)
         motionProxy.setStiffnesses("Body", 1.0)
         raise
-
-
-#BEGIN VINCENT
 
 def angleRShoulderPitch(x2, y2, z2, x1, y1, z1):
     if(y2<y1):
@@ -87,9 +83,6 @@ def angleRShoulderRoll(x2, y2, z2, x1, y1, z1):
         z1 = 0.8
     angle = math.atan((x2 - x1) / (z2 - z1))
     angle = math.degrees(angle)
-    # print("x-waarde Shouder: {0}------x-waarde elleboog: {1}").format(x2,x1)
-    # print("Z-waarde Shouder: {0}----- z-waarde elleboog: {1}").format(z2,z1)
-    # print("RshoulderRoll: {0}").format(angle)
     return angle
 
 def angleLShoulderPitch(x2, y2, z2, x1, y1, z1):
@@ -120,77 +113,107 @@ def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
     return angle
 
 def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
-    angle = math.atan((z2 - z1) / (y2 - y1))
-    angle = math.degrees(angle)
-    angle= angle + abs(shoulderpitch)
-    print("RElbowYaw: {0} ").format(angle)
-    return angle
-
-def angleRElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1):
-    if(abs(x2-x1) < 0.1 and abs(z2-z1)<0.1 and (x2<x3)):   
-        print("recht naar beneden")     
-        return 0   
-    elif(abs(x2-x1) < 0.1 and abs(y2-y1)<0.1 and (x2<x3)):  
-        print("naar beneden gebogen")      
-        return 90     
-    elif(abs(y2-y1) < 0.1 and abs(x2-x1)<0.1 and (z2<z3)):
-        print("recht naar voor")
+    if(abs(y2-y1)<0.1 and abs(z2-z1) < 0.1 and (x1>x2) ):
+        print ("a")
         return 0
-    elif(abs(z2-z1) < 0.1 and abs(x2-x1)<0.1 and (z2<z3)):
-        print("recht naar voor gebogen")
+    elif(abs(x2-x1)<0.1 and abs(z2-z1)<0.1 and (y1>y2)):
+        print("b")
         return 90
-    elif(abs(y2-y1) < 0.1 and abs(z2-z1)<0.1 and (x1<x2)):
-        print("naar rechts")
+    elif(abs(x2-x1)<0.1 and abs(z2-z1)<0.1 and (shoulderpitch > 50)):
+        print("c")
+        return 90
+    elif(abs(y2-y1)<0.1 and abs(z2-z1)<0.1 and (shoulderpitch > 50)):
+        print("c")
         return 0
-    elif(abs(z2-z1) < 0.1 and abs(x2-x1)<0.1 and (x2<x3)):
-        print("naar rechts gebogen")
+    elif(abs(x2-x1)<0.1 and abs(y2-y1)<0.1 and (shoulderpitch > 50)):
+        print("c")
         return 90
     else:
-        print("niets")
-        return 0
-    # if(abs(z2-z1)<0.15):
-    #
-    #     if(abs(x2-x1<0.15)):
-    #         return 0
-    #
-    #     else:
-    #         angle = math.atan(abs(x2 - x1) / (abs(y2 - y1)))
-    #         angle = 90 - angle
-    #         return angle
-    #
-    # elif y2-y1<0.15 and x2-x1<0.15:
-    #     return 0
+        angle = math.atan((z2 - z1) / (y2 - y1))
+        angle = math.degrees(angle)
+        angle = - angle + (shoulderpitch)
+        angle = - angle
+        print("d: " + str(angle))
+        return angle
 
 
-    #
-    # angle=math.atan((x2-x1)/(z2-z1))
-    # angle=math.degrees(angle)
-    # angle = 90-angle
-    # return angle
+def angleRElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1):
+    a1=(x3-x2)**2+(y3-y2)**2 + (z3-z2)**2
+    lineA= a1 ** 0.5
+    b1=(x2-x1)**2+(y2-y1)**2 + (z2-z1)**2
+    lineB= b1 ** 0.5
+    c1=(x1-x3)**2+(y1-y3)**2 + (z1-z3)**2
+    lineC= c1 ** 0.5
 
-    # if(abs(y2-y1)<0.1):
-    #     angle=math.atan()
-
-    # else:
-    #
-    angle = math.atan((x2 - x1) / (z2 - z1))
-    angle = math.degrees(angle)
-    angle = angle
-    print("mijn z's zijn niet meer bijna gelijk en ik heb een hoek van {0}").format(angle)
-    print("RElbowRoll: {0}").format(angle)
-
+    cosB = (pow(lineA, 2) + pow(lineB,2) - pow(lineC,2))/(2*lineA*lineB)
+    acosB = math.acos(cosB)
+    angle = math.degrees(acosB)
+    angle = 180 - angle
+    print("RElbowRoll", angle)
     return angle
 
 
-#EINDE VINCENT
 
+    #     b = math.sqrt(pow((z2-z1),2)+pow((x2-x1),2))
+    #     c = math.sqrt(pow((x3-x2),2)+ pow((z3-z2),2))
+    #     a = math.sqrt(pow((z3-z1),2)+pow((x3-x1),2))
 
+    #     angle = math.acos((pow(b,2)+pow(c,2)-pow(a,2))/(2*b*c))
+    #     angle = 160- math.degrees(angle)
+    #     print("RElbowRoll: {0}").format(angle)
+    #     return angle
+
+    # angle = math.atan((x2 - x1) / (z2 - z1))
+    # angle = math.degrees(angle)
+    # angle = angle
+    # print("mijn z's zijn niet meer bijna gelijk en ik heb een hoek van {0}").format(angle)
+    # print("RElbowRoll: {0}").format(angle)
+
+    # return angle
+
+def angleLElbowYaw(x2, y2, z2, x1, y1, z1, shoulderpitch):
+    if(abs(y2-y1)<0.1 and abs(z2-z1) < 0.1 and (x1>x2) ):
+        print ("a")
+        return 0
+    elif(abs(x2-x1)<0.1 and abs(z2-z1)<0.1 and (y1>y2)):
+        print("b")
+        return -90
+    elif(abs(x2-x1)<0.1 and abs(z2-z1)<0.1 and (shoulderpitch > 50)):
+        print("c")
+        return -90
+    elif(abs(y2-y1)<0.1 and abs(z2-z1)<0.1 and (shoulderpitch > 50)):
+        print("c")
+        return 0
+    elif(abs(x2-x1)<0.1 and abs(y2-y1)<0.1 and (shoulderpitch > 50)):
+        print("c")
+        return -90
+    else:
+        angle = math.atan((z2 - z1) / (y2 - y1))
+        angle = math.degrees(angle)
+        angle = - angle + (shoulderpitch)
+        angle = - angle
+        print("d: " + str(angle))
+        return angle
+
+def angleLElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1):
+
+    a1=(x3-x2)**2+(y3-y2)**2 + (z3-z2)**2
+    lineA= a1 ** 0.5
+    b1=(x2-x1)**2+(y2-y1)**2 + (z2-z1)**2
+    lineB= b1 ** 0.5
+    c1=(x1-x3)**2+(y1-y3)**2 + (z1-z3)**2
+    lineC= c1 ** 0.5
+
+    cosB = (pow(lineA, 2) + pow(lineB,2) - pow(lineC,2))/(2*lineA*lineB)
+    acosB = math.acos(cosB)
+    angle = math.degrees(acosB)
+    angle = -180+ angle
+    print("LElbowRoll", angle)
+    return angle
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
     client.subscribe("/Sandro")
-
-
 
 def on_message(client, userdata, msg):
     # print(msg.topic+" "+str(msg.payload))
@@ -202,6 +225,9 @@ def on_message(client, userdata, msg):
             # print(i['coordinates'])
         if i['jointname'] == "ElbowLeft":
             elbowLeft = i['coordinates']
+            # print(i['coordinates'])
+        if i['jointname'] == "WristLeft":
+            wristLeft = i['coordinates']
             # print(i['coordinates'])
         if i['jointname'] == "ShoulderRight":
             shoulderRight = i['coordinates']
@@ -224,8 +250,8 @@ def on_message(client, userdata, msg):
                 angleRElbowRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
                                 elbowRight[2], wristRight[0], wristRight[1], wristRight[2]))
             listAngles.append(
-            angleRElbowYaw(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
-                               elbowRight[2], angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
+                angleRElbowYaw(elbowRight[0], elbowRight[1], elbowRight[2], wristRight[0], wristRight[1],
+                               wristRight[2], angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
                                     elbowRight[2])))
             listAngles.append(
                 angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
@@ -233,7 +259,14 @@ def on_message(client, userdata, msg):
             listAngles.append(
                 angleLShouderRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                    elbowLeft[2]))
-    sendrobot(listAngles, "172.30.248.73", 9559)
+            listAngles.append(
+                angleLElbowRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
+                                elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2]))
+            listAngles.append(
+                angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1],
+                               wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
+                                    elbowLeft[2])))
+    sendrobot(listAngles, "172.30.248.56", 9559)
     # print("-----------------------------------")
 
 
@@ -242,5 +275,6 @@ client.on_connect = on_connect
 
 client.on_message = on_message
 
-client.connect("169.254.10.11", 1883, 60)
+# client.connect("169.254.10.11", 1883, 60)
+client.connect("52.174.68.36", 1883, 60)
 client.loop_forever()
