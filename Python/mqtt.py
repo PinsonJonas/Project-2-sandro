@@ -16,7 +16,7 @@ wristRight = []
 t = 0
 
 
-def sendrobot(anglelist, robotIP="172.30.248.73", PORT=9559):
+def sendrobot(anglelist, robotIP="172.30.248.56", PORT=9559):
     try:
         try:
             motionProxy = ALProxy("ALMotion", robotIP, PORT)
@@ -35,7 +35,7 @@ def sendrobot(anglelist, robotIP="172.30.248.73", PORT=9559):
             motionProxy.setStiffnesses("Body", 0.0)
             postureProxy.goToPosture("StandInit", 0.5)        
 
-        names = ["RShoulderPitch", "RShoulderRoll", "RElbowRoll", "RElbowYaw",  "LShoulderPitch", "LShoulderRoll"]
+        names = ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll",  "LShoulderPitch", "LShoulderRoll"]
 
         #"RElbowYaw", "RElbowRoll",
         #[(anglelist[len(anglelist) - 5]) * almath.TO_RAD],
@@ -120,66 +120,55 @@ def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
     return angle
 
 def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
-    angle = math.atan((z2 - z1) / (y2 - y1))
-    angle = math.degrees(angle)
-    angle= angle + abs(shoulderpitch)
-    print("RElbowYaw: {0} ").format(angle)
-    return angle
+
+    if(abs(y2-y1<0.2) and abs(z2-z1) < 0.2 ):
+        print("yaw:90")
+        return 90
+
+    elif(abs(y2-y1)<0.2and abs(z2-z1)<0.2):
+        print("yaw:0")
+        return 0
+
+    elif(abs(x2-x1)<0.2 and abs(z2-z1)<0.2):
+        print("yaw:90")
+        return 114
+
+
+
+    elif(abs(x2-x1)<0.2 and abs(y2-y1)<0.2):
+        print("Ik zit in deze klote elif and mijn hoek is 0")
+        return 0
+
+    else:
+
+        angle = math.atan((z2 - z1) / (y2 - y1))
+        angle = math.degrees(angle)
+        angle = -angle + (shoulderpitch)
+        angle = angle
+        print("yaw: {0}").format(angle)
+        return angle
+
+
 
 def angleRElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1):
-    if(abs(x2-x1) < 0.1 and abs(z2-z1)<0.1 and (x2<x3)):   
-        print("recht naar beneden")     
-        return 0   
-    elif(abs(x2-x1) < 0.1 and abs(y2-y1)<0.1 and (x2<x3)):  
-        print("naar beneden gebogen")      
-        return 90     
-    elif(abs(y2-y1) < 0.1 and abs(x2-x1)<0.1 and (z2<z3)):
-        print("recht naar voor")
-        return 0
-    elif(abs(z2-z1) < 0.1 and abs(x2-x1)<0.1 and (z2<z3)):
-        print("recht naar voor gebogen")
-        return 90
-    elif(abs(y2-y1) < 0.1 and abs(z2-z1)<0.1 and (x1<x2)):
-        print("naar rechts")
-        return 0
-    elif(abs(z2-z1) < 0.1 and abs(x2-x1)<0.1 and (x2<x3)):
-        print("naar rechts gebogen")
-        return 90
-    else:
-        print("niets")
-        return 0
-    # if(abs(z2-z1)<0.15):
-    #
-    #     if(abs(x2-x1<0.15)):
-    #         return 0
-    #
-    #     else:
-    #         angle = math.atan(abs(x2 - x1) / (abs(y2 - y1)))
-    #         angle = 90 - angle
-    #         return angle
-    #
-    # elif y2-y1<0.15 and x2-x1<0.15:
-    #     return 0
 
 
-    #
-    # angle=math.atan((x2-x1)/(z2-z1))
-    # angle=math.degrees(angle)
+
+
+        b = math.sqrt(pow((z2-z1),2)+pow((x2-x1),2))
+        c = math.sqrt(pow((x3-x2),2)+ pow((z3-z2),2))
+        a = math.sqrt(pow((z3-z1),2)+pow((x3-x1),2))
+
+        angle = math.acos((pow(b,2)+pow(c,2)-pow(a,2))/(2*b*c))
+        angle = 160- math.degrees(angle)
+        print("RElbowRoll: {0}").format(angle)
+        return angle
+    # angle = math.degrees(angle)
     # angle = 90-angle
-    # return angle
 
-    # if(abs(y2-y1)<0.1):
-    #     angle=math.atan()
 
-    # else:
     #
-    angle = math.atan((x2 - x1) / (z2 - z1))
-    angle = math.degrees(angle)
-    angle = angle
-    print("mijn z's zijn niet meer bijna gelijk en ik heb een hoek van {0}").format(angle)
-    print("RElbowRoll: {0}").format(angle)
-
-    return angle
+    # return angle
 
 
 #EINDE VINCENT
@@ -220,20 +209,23 @@ def on_message(client, userdata, msg):
             listAngles.append(
                 angleRShoulderRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
                                    elbowRight[2]))
+
+            listAngles.append(
+                angleRElbowYaw(elbowRight[0], elbowRight[1],
+                               elbowRight[2], wristRight[0], wristRight[1], wristRight[2],
+                               angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0],
+                                                   elbowRight[1],
+                                                   elbowRight[2])))
             listAngles.append(
                 angleRElbowRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
                                 elbowRight[2], wristRight[0], wristRight[1], wristRight[2]))
-            listAngles.append(
-            angleRElbowYaw(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
-                               elbowRight[2], angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
-                                    elbowRight[2])))
             listAngles.append(
                 angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                     elbowLeft[2]))
             listAngles.append(
                 angleLShouderRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                    elbowLeft[2]))
-    sendrobot(listAngles, "172.30.248.73", 9559)
+    sendrobot(listAngles, "172.30.248.56", 9559)
     # print("-----------------------------------")
 
 
@@ -242,5 +234,5 @@ client.on_connect = on_connect
 
 client.on_message = on_message
 
-client.connect("169.254.10.11", 1883, 60)
+client.connect("52.174.68.36", 1883, 60)
 client.loop_forever()
