@@ -113,27 +113,27 @@ def angleLShouderRoll(x2, y2, z2, x1, y1, z1):
     return angle
 
 def angleRElbowYaw(x2, y2, z2, x1, y1, z1,shoulderpitch):
-    if(abs(y2-y1)<0.1 and abs(z2-z1) < 0.1 and (x1>x2) ):
-        print ("a")
+    if(abs(y2-y1)<0.2 and abs(z2-z1) < 0.2 and (x1<x2) ):
+        print ("Ra")
         return 0
     elif(abs(x2-x1)<0.1 and abs(z2-z1)<0.1 and (y1>y2)):
-        print("b")
+        print("Rb")
         return 90
     elif(abs(x2-x1)<0.1 and abs(z2-z1)<0.1 and (shoulderpitch > 50)):
-        print("c")
+        print("Rc")
         return 90
-    elif(abs(y2-y1)<0.1 and abs(z2-z1)<0.1 and (shoulderpitch > 50)):
-        print("c")
+    elif(abs(y2-y1)<0.1 and abs(z2-z1)<0.1 and (shoulderpitch < 50)):
+        print("Rd")
         return 0
     elif(abs(x2-x1)<0.1 and abs(y2-y1)<0.1 and (shoulderpitch > 50)):
-        print("c")
+        print("Re")
         return 90
     else:
         angle = math.atan((z2 - z1) / (y2 - y1))
         angle = math.degrees(angle)
         angle = - angle + (shoulderpitch)
         angle = - angle
-        print("d: " + str(angle))
+        print("Rf: " + str(angle))
         return angle
 
 
@@ -154,27 +154,27 @@ def angleRElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1):
 
 
 def angleLElbowYaw(x2, y2, z2, x1, y1, z1, shoulderpitch):
-    if(abs(y2-y1)<0.1 and abs(z2-z1) < 0.1 and (x1>x2) ):
-        print ("a")
+    if(abs(y2-y1)<0.2 and abs(z2-z1) < 0.2 and (x1>x2) ):
+        print ("La")
         return 0
     elif(abs(x2-x1)<0.1 and abs(z2-z1)<0.1 and (y1>y2)):
-        print("b")
+        print("Lb")
         return -90
     elif(abs(x2-x1)<0.1 and abs(z2-z1)<0.1 and (shoulderpitch > 50)):
-        print("c")
+        print("Lc")
         return -90
     elif(abs(y2-y1)<0.1 and abs(z2-z1)<0.1 and (shoulderpitch > 50)):
-        print("c")
+        print("Ld")
         return 0
     elif(abs(x2-x1)<0.1 and abs(y2-y1)<0.1 and (shoulderpitch > 50)):
-        print("c")
+        print("LE")
         return -90
     else:
         angle = math.atan((z2 - z1) / (y2 - y1))
         angle = math.degrees(angle)
         angle = - angle + (shoulderpitch)
         angle = - angle
-        print("d: " + str(angle))
+        print("Lf: " + str(angle))
         return angle
 
 def angleLElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1):
@@ -248,7 +248,7 @@ def on_message(client, userdata, msg):
                 angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1],
                                wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                     elbowLeft[2])))
-    sendrobot(listAngles, "172.30.248.56", 9559)
+    sendrobot(listAngles, raw_input("Robot ip adres: "), raw_input("Robot port (default: 9559): "))
     # print("-----------------------------------")
 
 
@@ -258,5 +258,5 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 # client.connect("169.254.10.11", 1883, 60)
-client.connect("52.174.68.36", 1883, 60)
+client.connect(raw_input("Mqtt ip addres: "), 1883, 60)
 client.loop_forever()
