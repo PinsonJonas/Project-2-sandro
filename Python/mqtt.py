@@ -17,7 +17,7 @@ wristRight = []
 t = 0
 
 
-def sendrobot(anglelist, robotIP="172.30.248.56", PORT=9559):
+def sendrobot(anglelist, robotIP="172.30.248.133", PORT=9559):
     try:
         try:
             motionProxy = ALProxy("ALMotion", robotIP, PORT)

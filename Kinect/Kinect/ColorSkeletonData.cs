@@ -15,7 +15,7 @@ using KinectCoordinateMapping;
 using Microsoft.Kinect;
 using uPLibrary.Networking.M2Mqtt;
 using Newtonsoft.Json;
-using static System.Net.Mime.MediaTypeNames;
+using static System.Net.Mime.MediaTypeNames; 
 
 namespace Kinect
 {
@@ -30,9 +30,14 @@ namespace Kinect
         public Skeleton[] Skeletons;
 
 
+        //lijst om de skeletondata (json) die we later eventueel gaan wegschrijven in op te slaan
+        public List<string> SkeletonDataList = new List<string>();
+
+
        // image voor colorstream
         System.Windows.Controls.Image image;
 
+        public bool connected = new bool();
 
         //canvas om skelet op te tekenen
         System.Windows.Controls.Canvas canvas;
@@ -50,7 +55,7 @@ namespace Kinect
         public void InitTimer()
         {
             Debug.WriteLine("-----Timer Started------");
-            timer = new Timer(800);
+            timer = new Timer(700);
             timer.Elapsed += Timer_Elapsed;
             timer.Enabled = true;
             //timer.AutoReset = true;
@@ -72,14 +77,56 @@ namespace Kinect
 
         }
 
-        public void InitMqtt()
+        //initializeren van de mqqt client (draait lokaal)
+        public void InitMqtt(string mqttadres)
         {
-            //this.client = new MqttClient(IPAddress.Parse("169.254.10.11"));
-            this.client = new MqttClient(IPAddress.Parse("52.174.68.36"));
+            
+            try
+            {
 
-            client.Connect(Guid.NewGuid().ToString());
+                this.client = new MqttClient(IPAddress.Parse(mqttadres));
+                client.Connect(Guid.NewGuid().ToString());
+                InitTimer();
+                connected = true;
+
+            }
+            catch (Exception)
+            {
+                connected = false;
+                InitTimer();
+                StopTimer();
+
+            }
+
         }
 
+
+
+
+        //code voor het wegschrijven van de coordinaten naar de file 
+        public void WriteToFile(string filename)
+        {
+            string file = filename + ".txt";
+           
+            string path = System.IO.Path.Combine(Environment.CurrentDirectory, file);
+            if (!File.Exists(path))
+            {
+                File.Create(path).Close();
+                TextWriter tw = new StreamWriter(path);
+
+                foreach(string message in SkeletonDataList)
+                {
+                    tw.WriteLine(message);
+
+                }
+
+                tw.Close();
+               
+               
+            }
+
+
+        }
 
         //event na aflopen timer
         //schrijft iedere x seconden jointpositions weg
@@ -115,8 +162,9 @@ namespace Kinect
                         }
 
                         string json = JsonConvert.SerializeObject(jointcoordinates);
-
+                        
                         client.Publish("/Sandro", Encoding.UTF8.GetBytes(json));
+                        SkeletonDataList.Add(json);
 
 
 
