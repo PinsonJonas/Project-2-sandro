@@ -17,7 +17,7 @@ wristRight = []
 t = 0
 
 
-def sendrobot(anglelist, robotIP="172.30.248.133", PORT=9559):
+def sendrobot(anglelist, robotIP="172.30.248.56", PORT=9559):
     try:
         try:
             motionProxy = ALProxy("ALMotion", robotIP, PORT)
@@ -248,7 +248,7 @@ def on_message(client, userdata, msg):
                 angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1],
                                wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                     elbowLeft[2])))
-    sendrobot(listAngles, raw_input("Robot ip adres: "), raw_input("Robot port (default: 9559): "))
+    sendrobot(listAngles, "172.30.248.133", 9559)
     # print("-----------------------------------")
 
 
