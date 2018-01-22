@@ -30,7 +30,11 @@ namespace Kinect
         public Skeleton[] Skeletons;
 
 
-        //lijst om de skeletondata (json) die we later eventueel gaan wegschrijven in op te slaan
+        //property voor de aangemaakte files (worden in listview gestopt)
+        public List<Model.Files> Files = new List<Model.Files>();
+
+
+        //lijst om de skeletondata (json) die we later gaan wegschrijven tijdelijk in op te slaan
         public List<string> SkeletonDataList = new List<string>();
 
 
@@ -127,7 +131,26 @@ namespace Kinect
                
             }
 
+
+           
+            
             SkeletonDataList.Clear();
+        }
+
+        
+
+        // aangemaakte files uitlezen en ze in een klasse stoppen zodat ze in listview terecht komen
+        public List<Files> ReadFiles()
+        {
+            foreach (string file in Directory.EnumerateFiles(Environment.CurrentDirectory, "*.txt"))
+            {
+                Files file_1 = new Model.Files();
+                file_1.Content = File.ReadAllText(file);
+                file_1.Name = file;
+                Files.Add(file_1);
+            }
+
+            return Files;
         }
 
         //event na aflopen timer

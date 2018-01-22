@@ -31,12 +31,14 @@ namespace Kinect
 
         public ColorSkeletonData drawSkeleton { get; set; }
 
-
+        public List<Model.Files> files { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             this.drawSkeleton = new ColorSkeletonData();
+            this.files = this.drawSkeleton.ReadFiles();
+            lvwLibrary.ItemsSource = files;
             
         }
 
@@ -96,6 +98,11 @@ namespace Kinect
 
         private void lvwLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Debug.WriteLine("Werd verstuurd");
+            Model.Files file = lvwLibrary.SelectedItem as Model.Files;
+            drawSkeleton.client.Publish(TxbSubject.Text, Encoding.UTF8.GetBytes(file.Content));
+
+
 
         }
 
@@ -110,6 +117,10 @@ namespace Kinect
             if(txbFileName.Text != "" && txbFileName.Text.Contains(" ") == false)
             {
                 this.drawSkeleton.WriteToFile(txbFileName.Text);
+                this.files.Clear();
+                this.files = this.drawSkeleton.ReadFiles();
+                lvwLibrary.ItemsSource = null;
+                lvwLibrary.ItemsSource = this.files;
                 grdPopup.Visibility = Visibility.Hidden;
             }
 
