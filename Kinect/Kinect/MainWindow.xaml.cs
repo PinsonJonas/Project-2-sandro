@@ -62,8 +62,9 @@ namespace Kinect
         // Elke zoveel tijd wordt data over joints en boneorientation doorgestuurd
         private void btnStartRecord_Click(object sender, RoutedEventArgs e)
         {
-            drawSkeleton.InitMqtt(TxbIp.Text);
-            if(drawSkeleton.connected == false)
+            //mqttip & subject meegeven voor verificatie
+            drawSkeleton.InitMqtt(TxbIp.Text, TxbSubject.Text);
+            if(drawSkeleton.MqttConnected == false)
             {
                 MessageBox.Show("We konden niet verbinden met het ingegeven ip adres.");
             }
@@ -75,9 +76,12 @@ namespace Kinect
         //Timer wordt gestopt
         private void btnStopRecord_Click(object sender, RoutedEventArgs e)
         {
-            this.drawSkeleton.StopTimer();
-            grdPopup.Visibility = Visibility.Visible;
-            
+            if(drawSkeleton.timer.Enabled == true)
+            {
+                this.drawSkeleton.StopTimer();
+                grdPopup.Visibility = Visibility.Visible;
+            }
+
         }
 
         private void lvwLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
