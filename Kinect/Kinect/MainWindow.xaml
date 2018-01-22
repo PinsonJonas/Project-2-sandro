@@ -58,7 +58,6 @@
 
         </ListView>
 
-        <!--<Image x:Name="imgSandro" Grid.Column="2" Source="Assets/NAO.jpg" Opacity="0.2" Margin="0,21.686,98.6,-0.286" Height="249" Grid.Row="3" Width="145" VerticalAlignment="Center" HorizontalAlignment="Right"/>-->
 
 
 
@@ -93,7 +92,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="26" Margin="0,30,0,0">Do you wish to save the current recording?</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="0" Margin="30" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15">Enter a title:</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="30" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15">Enter a title (no spaces):</TextBlock>
             <TextBox x:Name="txbFileName"  VerticalAlignment="Center" FontSize="20" FontStyle="Italic" Grid.Row="1" Grid.Column="1"/>
             <Button Click="btnSave_Click" x:Name="btnSave" Content="Save" Grid.Row="2" Grid.Column="0" Margin="34,28.6,25.6,32" Background="#FF4293F4" Foreground="White"/>
             <Button x:Name="btnCancel" Content="Cancel" Grid.Row="2" Grid.Column="1" Background="#FF4293F4" Margin="34.4,28.6,26,32" Foreground="White" Click="btnCancel_Click"/>

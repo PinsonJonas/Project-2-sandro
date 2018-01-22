@@ -63,12 +63,22 @@ namespace Kinect
         private void btnStartRecord_Click(object sender, RoutedEventArgs e)
         {
             //mqttip & subject meegeven voor verificatie
-            drawSkeleton.InitMqtt(TxbIp.Text, TxbSubject.Text);
-            if(drawSkeleton.MqttConnected == false)
+
+            if (TxbSubject.Text != "") 
+                {
+                    drawSkeleton.InitMqtt(TxbIp.Text, TxbSubject.Text);
+                    if (drawSkeleton.MqttConnected == false)
+                    {
+                        MessageBox.Show("We konden niet verbinden met het ingegeven ip adres. Probeer opnieuw");
+                    }
+                }
+
+                else
             {
-                MessageBox.Show("We konden niet verbinden met het ingegeven ip adres.");
+                MessageBox.Show("Gelieve een correcte topic op te geven.");
+
             }
-                 
+
 
         }
 
@@ -92,12 +102,22 @@ namespace Kinect
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             grdPopup.Visibility = Visibility.Hidden;
+            this.drawSkeleton.SkeletonDataList.Clear();
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            grdPopup.Visibility = Visibility.Hidden;
-            this.drawSkeleton.WriteToFile(txbFileName.Text);
+            if(txbFileName.Text != "" && txbFileName.Text.Contains(" ") == false)
+            {
+                this.drawSkeleton.WriteToFile(txbFileName.Text);
+                grdPopup.Visibility = Visibility.Hidden;
+            }
+
+            else
+            {
+                MessageBox.Show("Gelieve een correcte titel mee te geven");
+            }
+
         }
 
         

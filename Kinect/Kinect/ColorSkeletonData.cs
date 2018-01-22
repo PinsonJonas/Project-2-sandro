@@ -127,7 +127,7 @@ namespace Kinect
                
             }
 
-
+            SkeletonDataList.Clear();
         }
 
         //event na aflopen timer
