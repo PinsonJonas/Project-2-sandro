@@ -9,7 +9,7 @@
         Loaded="Window_Loaded"
         Closing="Window_Closing" Width="1280" Height="480"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen" Background="#FF4293F4"
         >
     <Grid>
         <Grid.RowDefinitions>
@@ -49,7 +49,7 @@
             <Button x:Name="btnStopRecord" Content="Stop" Click="btnStopRecord_Click" Grid.Column="1" Grid.Row="1" Margin="9.6,10.4,9.8,9.8" FontSize="20" Background="#FF4293F4" BorderBrush="{x:Null}" Foreground="White"/>
         </Grid>
 
-        <ListView x:Name="lvwLibrary" Grid.Column="1" Grid.Row="1" Margin="15.2,10.2,9.6,9.6"  Background="#FF4293F4" BorderBrush="{x:Null}" SelectionChanged="lvwLibrary_SelectionChanged">
+        <ListView x:Name="lvwLibrary" MouseDoubleClick="lvwLibrary_MouseDoubleClick"  Grid.Column="1" Grid.Row="1" Margin="15.2,10.2,9.6,9.6"  Background="#FF4293F4" BorderBrush="{x:Null}" SelectionChanged="lvwLibrary_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
@@ -61,7 +61,7 @@
 
 
 
-        <Grid x:Name="GrdBorder" Grid.Column="1" Background="#FF4293F4" Margin="15,10,10,0" >
+        <Grid x:Name="GrdBorder" Grid.Column="1" Background="#FF4293F4" Margin="15.2,10,0,236.6" Grid.RowSpan="2" HorizontalAlignment="Left" Width="612" >
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition/>
@@ -76,12 +76,28 @@
             <TextBox x:Name="TxbIp"   VerticalAlignment="Center" FontSize="20" FontStyle="Italic" Grid.Row="1" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFE4E4E4" Text="127.0.0.1" Margin="10,0,0,0"/>
             <TextBlock Margin="20,75,0,49.2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Grid.Row="1" Foreground="White" Grid.RowSpan="2"><Run Text="Geef "/><Run Text="mqtt subject"/><Run Text=":"/></TextBlock>
             <TextBox x:Name="TxbSubject"   VerticalAlignment="Center" FontSize="20" FontStyle="Italic" Grid.Row="1" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFE4E4E4" Text="/Sandro" Margin="10.4,73,-1,49.2" Grid.RowSpan="2"/>
+            <Button x:Name="BtnClose"  Margin="267.4,10,10,36" Grid.Column="1" RenderTransformOrigin="0.403,0.482" Background="Transparent" BorderBrush="Transparent" Click="BtnClose_Click">
+                <StackPanel>
+                    <Image Source="/Assets/close-button.png" Height="24" Width="29" />
+                </StackPanel>
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+            </Button>
         </Grid>
 
 
 
 
-        <Grid x:Name="grdPopup" Visibility="Hidden" Grid.Column="0" Grid.Row="0" Background="White" Width="500" Height="280" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="30" Grid.RowSpan="2">
+        <Grid x:Name="grdPopup" Visibility="Hidden" Grid.Column="0" Grid.Row="0" Background="White" Width="500" Height="280" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="40 40 40 40" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"></RowDefinition>
@@ -91,9 +107,9 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="26" Margin="0,30,0,0">Do you wish to save the current recording?</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="0" Margin="30" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15">Enter a title (no spaces):</TextBlock>
-            <TextBox x:Name="txbFileName"  VerticalAlignment="Center" FontSize="20" FontStyle="Italic" Grid.Row="1" Grid.Column="1"/>
+            <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="20" Margin="40,40,40,0" Width="385" HorizontalAlignment="Center" VerticalAlignment="Center">Do you wish to save the current recording?</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15">Enter a title (no spaces):</TextBlock>
+            <TextBox x:Name="txbFileName"  VerticalAlignment="Center" FontSize="20" FontStyle="Italic" Grid.Row="1" Grid.Column="1" Margin="40,0"/>
             <Button Click="btnSave_Click" x:Name="btnSave" Content="Save" Grid.Row="2" Grid.Column="0" Margin="34,28.6,25.6,32" Background="#FF4293F4" Foreground="White"/>
             <Button x:Name="btnCancel" Content="Cancel" Grid.Row="2" Grid.Column="1" Background="#FF4293F4" Margin="34.4,28.6,26,32" Foreground="White" Click="btnCancel_Click"/>
         </Grid>

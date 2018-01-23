@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Kinect;
-
+using uPLibrary.Networking.M2Mqtt;
 
 namespace Kinect
 {
@@ -96,22 +97,27 @@ namespace Kinect
 
         }
 
-        private void lvwLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        
+
+        //click event op kruisje om applicatie te sluiten
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Werd verstuurd");
-            Model.Files file = lvwLibrary.SelectedItem as Model.Files;
-            drawSkeleton.client.Publish(TxbSubject.Text, Encoding.UTF8.GetBytes(file.Content));
-
-
-
+            Application curApp = Application.Current;
+            curApp.Shutdown();
         }
 
+
+        //click event op de cancel button naar het stoppen van een record
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             grdPopup.Visibility = Visibility.Hidden;
             this.drawSkeleton.SkeletonDataList.Clear();
         }
 
+
+        //event op save button na het stoppen van een record
+        //schrijft de data weg naar een file
+        //leest de file uit en stopt hem in de listview
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if(txbFileName.Text != "" && txbFileName.Text.Contains(" ") == false)
@@ -131,8 +137,25 @@ namespace Kinect
 
         }
 
-        
-        
+        //event op het dubbelklikken van een listviewitem (file)
+        //de inhoud van de file zal terug gepublished worden op de MQTT broker 
+        private void lvwLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                Model.Files file = lvwLibrary.SelectedItem as Model.Files;
+                this.drawSkeleton.client = new MqttClient(IPAddress.Parse(TxbIp.Text));
+                this.drawSkeleton.client.Connect(Guid.NewGuid().ToString());
+                drawSkeleton.client.Publish(TxbSubject.Text, Encoding.UTF8.GetBytes(file.Content));
+                Debug.WriteLine("Werd verstuurd");
+
+            }
+
+            catch
+            {
+                MessageBox.Show("Kon niet verbinden met de MQTT Broker");
+            }
+        }
     }
     }
 

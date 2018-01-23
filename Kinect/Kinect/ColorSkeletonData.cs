@@ -113,28 +113,45 @@ namespace Kinect
         public void WriteToFile(string filename)
         {
             string file = filename + ".txt";
-           
+            int index = 1;
+
             string path = System.IO.Path.Combine(Environment.CurrentDirectory, file);
             if (!File.Exists(path))
             {
                 File.Create(path).Close();
                 TextWriter tw = new StreamWriter(path);
 
-                foreach(string message in SkeletonDataList)
-                {
-                    tw.WriteLine(message);
+                string NameString = "{\"name\": \"" + filename + "\",";
+                string FullString = "";
+                FullString += (NameString);
 
+                foreach (string message in SkeletonDataList)
+                {
+                    
+                    string CoordString = "\"coord" + index + "\": " + message + ",";
+                    FullString += (CoordString);
+                    index += 1;
+                    
                 }
 
+                FullString = FullString.Remove(FullString.Length - 1, 1);
+                FullString += "}";
+
+                tw.WriteLine(FullString);
+
                 tw.Close();
+                
                
                
             }
 
 
+
+
            
             
             SkeletonDataList.Clear();
+            index = 0;
         }
 
         
@@ -142,13 +159,32 @@ namespace Kinect
         // aangemaakte files uitlezen en ze in een klasse stoppen zodat ze in listview terecht komen
         public List<Files> ReadFiles()
         {
+            string naam = "";
+
             foreach (string file in Directory.EnumerateFiles(Environment.CurrentDirectory, "*.txt"))
             {
                 Files file_1 = new Model.Files();
                 file_1.Content = File.ReadAllText(file);
-                file_1.Name = file;
+
+                List<string> strings = new List<string>(
+                file.Split(new string[] { "\\" }, StringSplitOptions.None));
+                foreach(string substring in strings )
+                {
+                    if(substring.Contains(".txt"))
+                    {
+                        int index = substring.LastIndexOf(".");
+                        
+                        naam = substring.Remove(index, 4);
+                        file_1.Name = naam;
+                    }
+                }
+
+                
                 Files.Add(file_1);
+                
             }
+
+            
 
             return Files;
         }
