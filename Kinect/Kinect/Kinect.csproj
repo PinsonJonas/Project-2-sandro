@@ -62,6 +62,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ColorSkeletonData.cs" />
+    <Compile Include="Model\Files.cs" />
     <Compile Include="Model\JointCoordinates.cs" />
     <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\Constants.cs" />

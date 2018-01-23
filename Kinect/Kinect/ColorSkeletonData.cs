@@ -30,22 +30,32 @@ namespace Kinect
         public Skeleton[] Skeletons;
 
 
-        //lijst om de skeletondata (json) die we later eventueel gaan wegschrijven in op te slaan
+        //property voor de aangemaakte files (worden in listview gestopt)
+        public List<Model.Files> Files = new List<Model.Files>();
+
+
+        //lijst om de skeletondata (json) die we later gaan wegschrijven tijdelijk in op te slaan
         public List<string> SkeletonDataList = new List<string>();
 
 
        // image voor colorstream
         System.Windows.Controls.Image image;
 
-        public bool connected = new bool();
+
+        public bool MqttConnected = new bool();
 
         //canvas om skelet op te tekenen
         System.Windows.Controls.Canvas canvas;
 
         //timer
-        private Timer timer;
+        public Timer timer = new Timer();
 
+
+        //property voor mqttclient
         public MqttClient client;
+
+        //property voor mqtt subject
+        string MqttSubject;
 
         //dictionary voor het tekenen van de bones (zal joint name en zijn position bevatten)
         public Dictionary<string, Point> dictionary = new Dictionary<string, Point>();
@@ -64,35 +74,31 @@ namespace Kinect
         //timer stoppen
         public void StopTimer()
         {
-            if(this.timer.Enabled == true)
-            {
-                this.timer.Dispose();
-                Debug.WriteLine("-----Timer Stopped-----");
-            }
-
-            else
-            {
-                return;
-            }
+            
+            this.timer.Dispose();
+            Debug.WriteLine("-----Timer Stopped-----");
+                    
 
         }
 
         //initializeren van de mqqt client (draait lokaal)
-        public void InitMqtt(string mqttadres)
+        public void InitMqtt(string MqttAdres, string MqttSubject)
         {
-            
+
+            this.MqttSubject = MqttSubject;
+
             try
             {
 
-                this.client = new MqttClient(IPAddress.Parse(mqttadres));
+                this.client = new MqttClient(IPAddress.Parse(MqttAdres));
                 client.Connect(Guid.NewGuid().ToString());
                 InitTimer();
-                connected = true;
+                MqttConnected = true;
 
             }
             catch (Exception)
             {
-                connected = false;
+                MqttConnected = false;
                 InitTimer();
                 StopTimer();
 
@@ -126,6 +132,25 @@ namespace Kinect
             }
 
 
+           
+            
+            SkeletonDataList.Clear();
+        }
+
+        
+
+        // aangemaakte files uitlezen en ze in een klasse stoppen zodat ze in listview terecht komen
+        public List<Files> ReadFiles()
+        {
+            foreach (string file in Directory.EnumerateFiles(Environment.CurrentDirectory, "*.txt"))
+            {
+                Files file_1 = new Model.Files();
+                file_1.Content = File.ReadAllText(file);
+                file_1.Name = file;
+                Files.Add(file_1);
+            }
+
+            return Files;
         }
 
         //event na aflopen timer
@@ -163,7 +188,7 @@ namespace Kinect
 
                         string json = JsonConvert.SerializeObject(jointcoordinates);
                         
-                        client.Publish("/Sandro", Encoding.UTF8.GetBytes(json));
+                        client.Publish(MqttSubject, Encoding.UTF8.GetBytes(json));
                         SkeletonDataList.Add(json);
 
 
