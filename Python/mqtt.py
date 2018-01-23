@@ -16,7 +16,10 @@ elbowRight = []
 wristRight = []
 t = 0
 test = []
-
+RobotIP = raw_input("Geef robot IP: ")
+RobotPort = raw_input("Geef robot Port (standaard 9559): ")
+MQTTIP = raw_input("Geef mqtt IP: ")
+MQTTTOPIC = raw_input("Geef mqtt topic: ")
 
 def sendrobot(anglelist, robotIP="172.30.248.133", PORT=9559):
     try:
@@ -182,13 +185,20 @@ def angleLElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1): #calulates the ElbowRol
 
 def on_connect(client, userdata, flags, rc): # connects with mqtt and subscribes to /Sandro
     print("Connected with result code " + str(rc))
-    # client.subscribe(raw_input("Geef je MQTT Topic:"))
-    client.subscribe("/Sandro")
+    client.subscribe(MQTTTOPIC)
+    # client.subscribe("/Sandro")
 
 def on_message(client, userdata, msg): # Checks the mqtt message it receives and processes the json
     payload = json.loads(msg.payload.decode('utf-8'))
-    print(payload)
-    print(len(payload))
+    # print(payload)
+    # print(len(payload))
+    global listAngles
+    global shoulderLeft
+    global elbowLeft
+    global wristLeft
+    global shoulderRight
+    global elbowRight 
+    global wristRight
     x=1
     test2 = []
     if 'name' in payload:
@@ -197,27 +207,84 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                 testje = "coord" + str(x)
 
                 if(key == testje ):
-                    test2.append(value)
+                    # test2.append(value)
+                    for i in value:
+                        if i['jointname'] == "ShoulderLeft": # checks jointname in json
+                            shoulderLeft = i['coordinates'] # puts the corresponding coordinates in the global list
+                            # print(shoulderLeft)
+                        if i['jointname'] == "ElbowLeft": # checks jointname in json
+                            elbowLeft = i['coordinates'] # puts the corresponding coordinates in the global list
+                            # print(elbowLeft)
+                        if i['jointname'] == "WristLeft": # checks jointname in json
+                            wristLeft = i['coordinates'] # puts the corresponding coordinates in the global list
+                            # print(wristLeft)
+                        if i['jointname'] == "ShoulderRight": # checks jointname in json
+                            shoulderRight = i['coordinates'] # puts the corresponding coordinates in the global list
+                            # print(shoulderRight)
+                        if i['jointname'] == "ElbowRight": # checks jointname in json
+                            elbowRight = i['coordinates'] # puts the corresponding coordinates in the global list
+                            # print(elbowRight)
+                        if i['jointname'] == "WristRight": # checks jointname in json
+                            wristRight = i['coordinates'] # puts the corresponding coordinates in the global list
+                            # print(wristRight)
+
+                    listAngles.append(
+                        angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
+                                elbowRight[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
+                    listAngles.append(
+                        angleRShoulderRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
+                                        elbowRight[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
+                    listAngles.append(
+                        angleRElbowRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
+                                        elbowRight[2], wristRight[0], wristRight[1], wristRight[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
+                    listAngles.append(
+                        angleRElbowYaw(elbowRight[0], elbowRight[1], elbowRight[2], wristRight[0], wristRight[1],
+                                    wristRight[2], angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
+                                            elbowRight[2]))) # calculates the angles via the Function with given coordinates and appends them to the masterlist
+                    listAngles.append(
+                        angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
+                                            elbowLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
+                    listAngles.append(
+                        angleLShouderRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
+                                        elbowLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
+                    listAngles.append(
+                        angleLElbowRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
+                                        elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
+                    listAngles.append(
+                        angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1],
+                                    wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
+                                            elbowLeft[2]))) # calculates the angles via the Function with given coordinates and appends them to the masterlist
+                # sendrobot(listAngles, raw_input("Robot ip adres: "), raw_input("Robot port (default: 9559): ")) # asks userinput to connect to the robot 
+                sendrobot(listAngles, RobotIP, RobotPort) # asks userinput to connect to the robot 
 
 
             x+=1
 
-        print(test2)
+        # print(test2)
 
     else:
-        for i in payload:        
-            if i['jointname'] == "ShoulderLeft": # checks jointname in json
-                shoulderLeft = i['coordinates'] # puts the corresponding coordinates in the global list
-            if i['jointname'] == "ElbowLeft": # checks jointname in json
-                elbowLeft = i['coordinates'] # puts the corresponding coordinates in the global list
-            if i['jointname'] == "WristLeft": # checks jointname in json
-                wristLeft = i['coordinates'] # puts the corresponding coordinates in the global list
-            if i['jointname'] == "ShoulderRight": # checks jointname in json
-                shoulderRight = i['coordinates'] # puts the corresponding coordinates in the global list
-            if i['jointname'] == "ElbowRight": # checks jointname in json
-                elbowRight = i['coordinates'] # puts the corresponding coordinates in the global list
-            if i['jointname'] == "WristRight": # checks jointname in json
-                wristRight = i['coordinates'] # puts the corresponding coordinates in the global list
+        for y in payload:        
+            # print(payload)
+            print(y['jointname'])
+            print(y['coordinates'])
+            if y['jointname'] == "ShoulderLeft": # checks jointname in json
+                shoulderLeft = y['coordinates'] # puts the corresponding coordinates in the global list
+                print(shoulderLeft)
+            if y['jointname'] == "ElbowLeft": # checks jointname in json
+                elbowLeft = y['coordinates'] # puts the corresponding coordinates in the global list
+                print(elbowLeft)
+            if y['jointname'] == "WristLeft": # checks jointname in json
+                wristLeft = y['coordinates'] # puts the corresponding coordinates in the global list
+                print(wristLeft)
+            if y['jointname'] == "ShoulderRight": # checks jointname in json
+                shoulderRight = y['coordinates'] # puts the corresponding coordinates in the global list
+                print(shoulderRight[0])
+            if y['jointname'] == "ElbowRight": # checks jointname in json
+                elbowRight = y['coordinates'] # puts the corresponding coordinates in the global list
+                print(elbowRight)
+            if y['jointname'] == "WristRight": # checks jointname in json
+                wristRight = y['coordinates'] # puts the corresponding coordinates in the global list
+                print(wristRight)
 
             listAngles.append(
                 angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
@@ -245,7 +312,7 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                 angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1],
                                wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                     elbowLeft[2]))) # calculates the angles via the Function with given coordinates and appends them to the masterlist
-        sendrobot(listAngles, raw_input("Robot ip adres: "), raw_input("Robot port (default: 9559): ")) # asks userinput to connect to the robot 
+        sendrobot(listAngles, RobotIP, RobotPort) # asks userinput to connect to the robot 
 
 
 client = mqtt.Client() # mqtt stuff
@@ -255,5 +322,5 @@ client.on_message = on_message # mqtt stuff
 
 # client.connect("169.254.10.11", 1883, 60)
 # client.connect(raw_input("Mqtt ip address: "), 1883, 60) # Asks mqtt ip address
-client.connect("52.174.68.36", 1883, 60) # Asks mqtt ip address
+client.connect(MQTTIP, 1883, 60) # Asks mqtt ip address
 client.loop_forever() # listen forever
