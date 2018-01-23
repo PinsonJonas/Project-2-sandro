@@ -187,14 +187,23 @@ def on_connect(client, userdata, flags, rc): # connects with mqtt and subscribes
 
 def on_message(client, userdata, msg): # Checks the mqtt message it receives and processes the json
     payload = json.loads(msg.payload.decode('utf-8'))
+    print(payload)
+    print(len(payload))
     x=1
+    test2 = []
     if 'name' in payload:
-        # for i in payload:
-        #     if i['coord'+x] == ""
-        print(len(payload)-1)
-        for key, value in payload.iteritems():
-            print (key, value)
-        
+        while x <= len(payload)-1:
+            for key,value in payload.iteritems():
+                testje = "coord" + str(x)
+
+                if(key == testje ):
+                    test2.append(value)
+
+
+            x+=1
+
+        print(test2)
+
     else:
         for i in payload:        
             if i['jointname'] == "ShoulderLeft": # checks jointname in json
