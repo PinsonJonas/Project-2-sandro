@@ -193,8 +193,8 @@ def on_connect(client, userdata, flags, rc): # connects with mqtt and subscribes
 def on_message(client, userdata, msg): # Checks the mqtt message it receives and processes the json
     payload = json.loads(msg.payload.decode('utf-8'))
     if(msg.topic == "/Sandro"):
+        print("ici c'est sandro une")
         for i in payload:
-            print 'test'
         # print(i['jointname'])
             if i['jointname'] == "ShoulderLeft":
                 shoulderLeft = i['coordinates']
@@ -245,16 +245,9 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
             # sendrobot(listAngles, RobotIP, RobotPort) # asks userinput to connect to the robot 
             sendrobot(listAngles, "172.30.248.128", 9559) # asks userinput to connect to the robot 
     if(msg.topic == "/Sandro2"):
-        # global listAngles
-        # global shoulderLeft
-        # global elbowLeft
-        # global wristLeft
-        # global shoulderRight
-        # global elbowRight 
-        # global wristRight
+        print("maintenant c'est sandro deux")
         x=1
         test2 = []
-        print 'test'
         while x <= len(payload)-1:
             for key,value in payload.iteritems():
                 testje = "coord" + str(x)

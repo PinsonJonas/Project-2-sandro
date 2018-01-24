@@ -65,7 +65,7 @@ namespace Kinect
         public void InitTimer()
         {
             Debug.WriteLine("-----Timer Started------");
-            timer = new Timer(700);
+            timer = new Timer(800);
             timer.Elapsed += Timer_Elapsed;
             timer.Enabled = true;
             //timer.AutoReset = true;
