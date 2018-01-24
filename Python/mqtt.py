@@ -51,7 +51,7 @@ def sendrobot(anglelist, robotIP="172.30.248.120", PORT=9559):
                       [(anglelist[len(anglelist) - 3]) * almath.TO_RAD],
                       [(anglelist[len(anglelist) - 2]) * almath.TO_RAD],
                       [(anglelist[len(anglelist) - 1]) * almath.TO_RAD]]
-        timeLists = [[0.6], [0.6], [0.6], [0.6], [0.6], [0.6], [0.6], [0.6]] # sets the time the robot has to get to the joint location (when you give more than one coordinate for a joint, you have to give more than one timestamp for that same joint!)
+        timeLists = [[0.4], [0.4], [0.4], [0.4], [0.4], [0.4], [0.4], [0.4]] # sets the time the robot has to get to the joint location (when you give more than one coordinate for a joint, you have to give more than one timestamp for that same joint!)
         isAbsolute = True # kindoff is deprecated, but makes the joint positions absolute and not relative
         motionProxy.angleInterpolation(names, angleLists, timeLists, isAbsolute) #the function talks with the robot
         t += 1 # global t gets added by 1 so the joints dont get unstiffened again and the robot does not get put in its initial position
@@ -243,7 +243,7 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                                 wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                         elbowLeft[2])))
             # sendrobot(listAngles, RobotIP, RobotPort) # asks userinput to connect to the robot 
-            sendrobot(listAngles, "172.30.248.120", 9559) # asks userinput to connect to the robot 
+            sendrobot(listAngles, "172.30.248.128", 9559) # asks userinput to connect to the robot 
     if(msg.topic == "/Sandro2"):
         # global listAngles
         # global shoulderLeft
@@ -289,7 +289,7 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                     listAngles.append(angleLShouderRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleLElbowRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2]))) # calculates the angles via the Function with given coordinates and appends them to the masterlist
-                sendrobot(listAngles, "172.30.248.120", 9559) # asks userinput to connect to the robot 
+                sendrobot(listAngles, "172.30.248.128", 9559) # asks userinput to connect to the robot 
                 # sendrobot(listAngles, RobotIP, RobotPort) # asks userinput to connect to the robot 
 
 
