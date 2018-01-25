@@ -15,11 +15,10 @@ shoulderRight = []
 elbowRight = []
 wristRight = []
 t = 0
-test = []
-# RobotIP = raw_input("Geef robot IP: ")
-# RobotPort = raw_input("Geef robot Port (standaard 9559): ")
-# MQTTIP = raw_input("Geef mqtt IP: ")
-# MQTTTOPIC = raw_input("Geef mqtt topic: ")
+RobotIP = raw_input("Geef robot IP: ")
+RobotPort = int(raw_input("Geef robot Port (standaard 9559): "))
+MQTTIP = raw_input("Geef mqtt IP: ")
+MQTTTOPIC = raw_input("Geef mqtt topic: ")
 
 def sendrobot(anglelist, robotIP="172.30.248.120", PORT=9559):
     try:
@@ -29,7 +28,7 @@ def sendrobot(anglelist, robotIP="172.30.248.120", PORT=9559):
             print "Could not create proxy to AlMotion"
             print "Error was: ", e
         try:
-            postureProxy = ALProxy("ALRobotPosture", robotIP, 9559) #creates proxy to call specific functions
+            postureProxy = ALProxy("ALRobotPosture", robotIP, PORT) #creates proxy to call specific functions
         except Exception, e:
             print "Could not create proxy to ALRobotPosture"
             print "Error was: ", e
@@ -185,36 +184,26 @@ def angleLElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1): #calulates the ElbowRol
 
 def on_connect(client, userdata, flags, rc): # connects with mqtt and subscribes to /Sandro
     print("Connected with result code " + str(rc))
-    # client.subscribe(MQTTTOPIC)
-    # client.subscribe(MQTTTOPIC+str(2))
-    client.subscribe("/Sandro")
-    client.subscribe("/Sandro2")
+    client.subscribe(MQTTTOPIC)
+    client.subscribe(MQTTTOPIC+str(2))
 
 def on_message(client, userdata, msg): # Checks the mqtt message it receives and processes the json
     payload = json.loads(msg.payload.decode('utf-8'))
     if(msg.topic == "/Sandro"):
-        print("ici c'est sandro une")
+        # print("ici c'est sandro une")
         for i in payload:
-        # print(i['jointname'])
             if i['jointname'] == "ShoulderLeft":
                 shoulderLeft = i['coordinates']
-                # print(i['coordinates'])
             if i['jointname'] == "ElbowLeft":
                 elbowLeft = i['coordinates']
-                # print(i['coordinates'])
             if i['jointname'] == "WristLeft":
                 wristLeft = i['coordinates']
-                # print(i['coordinates'])
             if i['jointname'] == "ShoulderRight":
                 shoulderRight = i['coordinates']
-                # print(i['coordinates'])
             if i['jointname'] == "ElbowRight":
                 elbowRight = i['coordinates']
-                # print(i['coordinates'])
             if i['jointname'] == "WristRight":
                 wristRight = i['coordinates']
-                # print(i['coordinates'])
-                # print(shoulderRight)
 
                 listAngles.append(
                     angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],
@@ -242,37 +231,31 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                     angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1],
                                 wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                         elbowLeft[2])))
+<<<<<<< HEAD
             # sendrobot(listAngles, RobotIP, RobotPort) # asks userinput to connect to the robot 
             sendrobot(listAngles, "172.30.248.175", 9559) # asks userinput to connect to the robot
+=======
+        sendrobot(listAngles, RobotIP, RobotPort) # takes userinput
+>>>>>>> 0408f6e02b03a1b76b92ee860fcdd49374e0e98b
     if(msg.topic == "/Sandro2"):
-        print("maintenant c'est sandro deux")
         x=1
-        test2 = []
         while x <= len(payload)-1:
             for key,value in payload.iteritems():
-                testje = "coord" + str(x)
-
-                if(key == testje ):
-                    # test2.append(value)
+                numcoord = "coord" + str(x)
+                if(key == numcoord ):
                     for i in value:
                         if i['jointname'] == "ShoulderLeft": # checks jointname in json
                             shoulderLeft = i['coordinates'] # puts the corresponding coordinates in the global list
-                            # print(shoulderLeft)
                         if i['jointname'] == "ElbowLeft": # checks jointname in json
                             elbowLeft = i['coordinates'] # puts the corresponding coordinates in the global list
-                            # print(elbowLeft)
                         if i['jointname'] == "WristLeft": # checks jointname in json
                             wristLeft = i['coordinates'] # puts the corresponding coordinates in the global list
-                            # print(wristLeft)
                         if i['jointname'] == "ShoulderRight": # checks jointname in json
                             shoulderRight = i['coordinates'] # puts the corresponding coordinates in the global list
-                            # print(shoulderRight)
                         if i['jointname'] == "ElbowRight": # checks jointname in json
                             elbowRight = i['coordinates'] # puts the corresponding coordinates in the global list
-                            # print(elbowRight)
                         if i['jointname'] == "WristRight": # checks jointname in json
                             wristRight = i['coordinates'] # puts the corresponding coordinates in the global list
-                            # print(wristRight)
 
                     listAngles.append(angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1],elbowRight[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleRShoulderRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1], elbowRight[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
@@ -282,8 +265,7 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                     listAngles.append(angleLShouderRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleLElbowRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2]))) # calculates the angles via the Function with given coordinates and appends them to the masterlist
-                sendrobot(listAngles, "172.30.248.128", 9559) # asks userinput to connect to the robot 
-                # sendrobot(listAngles, RobotIP, RobotPort) # asks userinput to connect to the robot 
+            sendrobot(listAngles, RobotIP, RobotPort) # Takes userinput
 
 
             x+=1
@@ -295,7 +277,5 @@ client.on_connect = on_connect # mqtt stuff
 
 client.on_message = on_message # mqtt stuff
 
-# client.connect("169.254.10.11", 1883, 60)
-client.connect("52.174.68.36", 1883, 60) # Asks mqtt ip address
-# client.connect(MQTTIP, 1883, 60) # Asks mqtt ip address
+client.connect(MQTTIP, 1883, 60) # takes userinput
 client.loop_forever() # listen forever

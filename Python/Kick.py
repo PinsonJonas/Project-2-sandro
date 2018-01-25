@@ -166,7 +166,6 @@ def angleLElbowYaw(x2, y2, z2, x1, y1, z1, shoulderpitch): #calulates the ElbowY
         return angle
 
 def angleLElbowRoll(x3, y3, z3, x2, y2, z2, x1, y1, z1): #calulates the ElbowRoll value for the Left elbow by using geometry
-
     a1=(x3-x2)**2+(y3-y2)**2 + (z3-z2)**2
     lineA= a1 ** 0.5                        # calculates length of line between 2 3D coordinates
     b1=(x2-x1)**2+(y2-y1)**2 + (z2-z1)**2
@@ -227,7 +226,7 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                 angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1],
                                 wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                     elbowLeft[2]))) # calculates the angles via the Function with given coordinates and appends them to the masterlist
-    sendrobot(listAngles, "172.30.248.120", 9559) # asks userinput to connect to the robot 
+    sendrobot(listAngles, "172.30.248.175", 9559) # asks userinput to connect to the robot 
 
 
 client = mqtt.Client() # mqtt stuff
@@ -235,7 +234,6 @@ client.on_connect = on_connect # mqtt stuff
 
 client.on_message = on_message # mqtt stuff
 
-# client.connect("169.254.10.11", 1883, 60)
 # client.connect(raw_input("Mqtt ip address: "), 1883, 60) # Asks mqtt ip address
 client.connect("52.174.68.36", 1883, 60) # Asks mqtt ip address
 client.loop_forever() # listen forever
