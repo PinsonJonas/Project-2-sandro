@@ -232,6 +232,10 @@ namespace Kinect
 
                     
                 }
+                else
+                {
+                    continue;
+                }
 
 
         }
