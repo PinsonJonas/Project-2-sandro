@@ -146,7 +146,7 @@ namespace Kinect
                 Model.Files file = lvwLibrary.SelectedItem as Model.Files;
                 this.drawSkeleton.client = new MqttClient(IPAddress.Parse(TxbIp.Text));
                 this.drawSkeleton.client.Connect(Guid.NewGuid().ToString());
-                drawSkeleton.client.Publish(TxbSubject.Text, Encoding.UTF8.GetBytes(file.Content));
+                drawSkeleton.client.Publish(TxbSubject.Text+ "2", Encoding.UTF8.GetBytes(file.Content));
                 Debug.WriteLine("Werd verstuurd");
 
             }

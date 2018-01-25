@@ -190,6 +190,7 @@ def on_connect(client, userdata, flags, rc): # connects with mqtt and subscribes
 def on_message(client, userdata, msg): # Checks the mqtt message it receives and processes the json
     payload = json.loads(msg.payload.decode('utf-8'))
     if(msg.topic == "/Sandro"):
+        # print("ici c'est sandro une")
         for i in payload:
             if i['jointname'] == "ShoulderLeft":
                 shoulderLeft = i['coordinates']

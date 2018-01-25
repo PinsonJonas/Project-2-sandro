@@ -49,7 +49,7 @@
             <Button x:Name="btnStopRecord" Content="Stop" Click="btnStopRecord_Click" Grid.Column="1" Grid.Row="1" Margin="9.6,10.4,9.8,9.8" FontSize="20" Background="#FF4293F4" BorderBrush="{x:Null}" Foreground="White"/>
         </Grid>
 
-        <ListView x:Name="lvwLibrary" MouseDoubleClick="lvwLibrary_MouseDoubleClick"  Grid.Column="1" Grid.Row="1" Margin="15.2,10.2,9.6,9.6"  Background="#FF4293F4" BorderBrush="{x:Null}" SelectionChanged="lvwLibrary_SelectionChanged">
+        <ListView x:Name="lvwLibrary" MouseDoubleClick="lvwLibrary_MouseDoubleClick"  Grid.Column="1" Grid.Row="1" Margin="15.2,10.2,9.6,9.6"  Background="#FF4293F4" BorderBrush="{x:Null}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
