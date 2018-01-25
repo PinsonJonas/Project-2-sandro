@@ -73,7 +73,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="TxbTitel" TextWrapping="Wrap" Text="Sandro" Margin="0.2,0,-0.4,0"  Height="68" FontSize="48" Foreground="White" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" FontWeight="Bold"/>
             <TextBlock Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Grid.Row="1" Foreground="White">Geef ip mqtt broker:</TextBlock>
-            <TextBox x:Name="TxbIp"   VerticalAlignment="Center" FontSize="20" FontStyle="Italic" Grid.Row="1" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFE4E4E4" Text="127.0.0.1" Margin="10,0,0,0"/>
+            <TextBox x:Name="TxbIp"   VerticalAlignment="Center" FontSize="20" FontStyle="Italic" Grid.Row="1" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFE4E4E4" Text="52.174.68.36" Margin="10,0,0,0"/>
             <TextBlock Margin="20,75,0,49.2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Grid.Row="1" Foreground="White" Grid.RowSpan="2"><Run Text="Geef "/><Run Text="mqtt subject"/><Run Text=":"/></TextBlock>
             <TextBox x:Name="TxbSubject"   VerticalAlignment="Center" FontSize="20" FontStyle="Italic" Grid.Row="1" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFE4E4E4" Text="/Sandro" Margin="10.4,73,-1,49.2" Grid.RowSpan="2"/>
             <Button x:Name="BtnClose"  Margin="267.4,10,10,36" Grid.Column="1" RenderTransformOrigin="0.403,0.482" Background="Transparent" BorderBrush="Transparent" Click="BtnClose_Click">

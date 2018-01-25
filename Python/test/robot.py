@@ -224,13 +224,17 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                     angleLShouderRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                     elbowLeft[2]))
                 listAngles.append(
+                    angleLShouderRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
+                                   elbowLeft[2]))
+                listAngles.append(
                     angleLElbowRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
-                                    elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2]))
+                                elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2]))
                 listAngles.append(
                     angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1],
-                                wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
-                                        elbowLeft[2])))
-        sendrobot(listAngles, RobotIP, RobotPort) # takes userinput
+                               wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
+                                    elbowLeft[2])))
+        sendrobot(listAngles, "172.30.248.175", 9559)
+
     if(msg.topic == "/Sandro2"):
         x=1
         while x <= len(payload)-1:
@@ -255,7 +259,7 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                     listAngles.append(angleRShoulderRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1], elbowRight[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleRElbowRoll(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1], elbowRight[2], wristRight[0], wristRight[1], wristRight[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleRElbowYaw(elbowRight[0], elbowRight[1], elbowRight[2], wristRight[0], wristRight[1], wristRight[2], angleRShoulderPitch(shoulderRight[0], shoulderRight[1], shoulderRight[2], elbowRight[0], elbowRight[1], elbowRight[2]))) # calculates the angles via the Function with given coordinates and appends them to the masterlist
-                    listAngles.append(angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
+                       listAngles.append(angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleLShouderRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleLElbowRoll(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2])) # calculates the angles via the Function with given coordinates and appends them to the masterlist
                     listAngles.append(angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1], wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1], elbowLeft[2]))) # calculates the angles via the Function with given coordinates and appends them to the masterlist

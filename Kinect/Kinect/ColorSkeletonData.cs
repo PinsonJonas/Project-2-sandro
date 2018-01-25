@@ -226,12 +226,13 @@ namespace Kinect
                         
                         client.Publish(MqttSubject, Encoding.UTF8.GetBytes(json));
                         SkeletonDataList.Add(json);
-
-
-
-
                     
                 }
+                else
+                {
+                    continue;
+                }
+
                 else
                 {
                     continue;

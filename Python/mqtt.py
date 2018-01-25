@@ -231,7 +231,12 @@ def on_message(client, userdata, msg): # Checks the mqtt message it receives and
                     angleLElbowYaw(elbowLeft[0], elbowLeft[1], elbowLeft[2], wristLeft[0], wristLeft[1],
                                 wristLeft[2], angleLShoulderPitch(shoulderLeft[0], shoulderLeft[1], shoulderLeft[2], elbowLeft[0], elbowLeft[1],
                                         elbowLeft[2])))
+<<<<<<< HEAD
+            # sendrobot(listAngles, RobotIP, RobotPort) # asks userinput to connect to the robot 
+            sendrobot(listAngles, "172.30.248.175", 9559) # asks userinput to connect to the robot
+=======
         sendrobot(listAngles, RobotIP, RobotPort) # takes userinput
+>>>>>>> 0408f6e02b03a1b76b92ee860fcdd49374e0e98b
     if(msg.topic == "/Sandro2"):
         x=1
         while x <= len(payload)-1:
