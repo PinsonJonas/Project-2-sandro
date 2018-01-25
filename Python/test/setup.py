@@ -1,7 +1,7 @@
 from distutils.core import setup
 import py2exe
 
-setup(console=['mqtt.py'])
+setup(console=['Robot.py'])
 
 # from distutils.core import setup
 # import py2exe, sys, os
