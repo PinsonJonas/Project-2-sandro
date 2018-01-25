@@ -233,11 +233,6 @@ namespace Kinect
                     continue;
                 }
 
-                else
-                {
-                    continue;
-                }
-
 
         }
 
